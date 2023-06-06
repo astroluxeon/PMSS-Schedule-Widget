@@ -1,4 +1,4 @@
-// PMSS Schedule Rotation Widget v0.0.1
+// PMSS Schedule Rotation Widget v0.1.0
 
 const widget = new ListWidget();
 
