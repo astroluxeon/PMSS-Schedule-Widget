@@ -1,3 +1,5 @@
+// PMSS Schedule Rotation Widget v0.0.1
+
 const widget = new ListWidget();
 
 const start = new Date(2023, 8, 6);
@@ -5,6 +7,7 @@ const end = new Date(2024, 5, 28);
 const lsYear = new Date(2023, 5, 1);
 const lsYearEnd = new Date(2023, 5, 30);
 let current = new Date();
+
 
 const holidays = new Map([
     [new Date(2023, 8, 22).getTime(), "Pro-D Day"],
@@ -36,6 +39,19 @@ for (let date = new Date(sBreakStart); date <= sBreakEnd; date.setDate(date.getD
     holidays.set(new Date(date), "Spring Break");
 }
 
+// Define the widget dimensions
+widget.setPadding(10, 10, 10, 10);
+widget.useDefaultPadding();
+widget.spacing = 5;
+
+// Define the text styles
+const titleFont = Font.boldSystemFont(18);
+const titleColor = new Color("#FFFFFF"); // Customize the title color if needed
+
+const contentFont = Font.systemFont(16);
+const contentColor = new Color("#FFFFFF"); // Customize the content color if needed
+
+// Determine the output text
 let titleText = "";
 if (current.toDateString() === new Date(2023, 8, 5).toDateString()) {
     titleText += "Back to School!";
@@ -73,5 +89,24 @@ if (current.toDateString() === new Date(2023, 8, 5).toDateString()) {
     }
 }
 
-console.log(titleText);
-console.log(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
+// Add the title label
+const titleLabel = widget.addText(titleText);
+titleLabel.font = titleFont;
+titleLabel.textColor = titleColor;
+
+// Add the output text to the widget
+const outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
+outputLabel.font = contentFont;
+outputLabel.textColor = contentColor;
+
+// Set the widget background color
+widget.backgroundColor = new Color("#000000")
+
+// Run the script
+if (config.runsInWidget) {
+    // For widget display, present the widget
+    Script.setWidget(widget);
+} else {
+    // For script execution, log the widget's text
+    console.log(widget.text);
+}

@@ -1,6 +1,4 @@
-let y = 0;
-let m = 0;
-let d = 0;
+// PMSS Schedule Rotation Widget v0.1.1
 
 const widget = new ListWidget();
 
@@ -9,9 +7,6 @@ const end = new Date(2024, 5, 28);
 const lsYear = new Date(2023, 5, 1);
 const lsYearEnd = new Date(2023, 5, 30);
 let current = new Date();
-if (y != 0 && m != 0 && d != 0) {
-    current = new Date(y, m-1, d);
-}
 
 
 const holidays = new Map([

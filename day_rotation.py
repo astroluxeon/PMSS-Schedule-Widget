@@ -1,15 +1,10 @@
 import datetime
 
-y = 0
-m = 0
-d = 0
-
 start = datetime.date(2023, 9, 6)
 end = datetime.date(2024, 6, 27)
 ls_year = datetime.date(2023, 6, 1)
 ls_year_end = datetime.date(2023, 6, 30)
 current = datetime.date.today()
-if y != 0 and m != 0 and d != 0: current = datetime.date(y, m, d)
 
 holidays = {
     datetime.date(2023, 9, 22): "Pro-D Day",
