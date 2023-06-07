@@ -8,3 +8,6 @@ Bug fixes
 
 ## v0.2.0 - 2023-06-07
 Added automatic updater
+
+## v0.2.1 - 2023-06-07
+Fixed bugs
