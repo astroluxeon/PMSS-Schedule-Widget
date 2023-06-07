@@ -1,4 +1,4 @@
-// PMSS Schedule Rotation Widget v0.1.0
+// PMSS Schedule Rotation Widget v0.1.1
 
 const widget = new ListWidget();
 
@@ -7,7 +7,6 @@ const end = new Date(2024, 5, 28);
 const lsYear = new Date(2023, 5, 1);
 const lsYearEnd = new Date(2023, 5, 30);
 let current = new Date();
-
 
 const holidays = new Map([
     [new Date(2023, 8, 22).getTime(), "Pro-D Day"],

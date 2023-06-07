@@ -8,7 +8,6 @@ const lsYear = new Date(2023, 5, 1);
 const lsYearEnd = new Date(2023, 5, 30);
 let current = new Date();
 
-
 const holidays = new Map([
     [new Date(2023, 8, 22).getTime(), "Pro-D Day"],
     [new Date(2023, 9, 2).getTime(), "Truth and Reconciliation Day"],
