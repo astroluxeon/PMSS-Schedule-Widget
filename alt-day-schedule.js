@@ -1,3 +1,6 @@
+// Variables used by Scriptable.
+// These must be at the very top of the file. Do not edit.
+// icon-color: blue; icon-glyph: magic;
 // PMSS Schedule Rotation Widget v0.1.1
 
 const widget = new ListWidget();
