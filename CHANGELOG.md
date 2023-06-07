@@ -11,3 +11,6 @@ Added automatic updater
 
 ## v0.2.1 - 2023-06-07
 Fixed bugs
+
+## v0.2.2 - 2023-06-07
+Fixed bugs
