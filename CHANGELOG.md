@@ -5,3 +5,6 @@ Initial canary build release
 
 ## v0.1.1 - 2023-06-06
 Bug fixes
+
+## v0.2.0 - 2023-06-07
+Added automatic updater

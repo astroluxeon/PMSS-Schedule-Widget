@@ -1,18 +1,13 @@
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Rotation Widget v0.2.0
+// PMSS Schedule Rotation Widget v0.0.1
 
 const widget = new ListWidget();
-
-const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Rotation-Widget/master/alt-day-schedule.js";
-const currentVersion = "0.2.0"
 
 const start = new Date(2023, 8, 6);
 const end = new Date(2024, 5, 28);
 const lsYear = new Date(2023, 5, 1);
 const lsYearEnd = new Date(2023, 5, 30);
-const current = new Date();
+let current = new Date();
+
 
 const holidays = new Map([
     [new Date(2023, 8, 22).getTime(), "Pro-D Day"],
@@ -107,41 +102,6 @@ outputLabel.textColor = contentColor;
 // Set the widget background color
 widget.backgroundColor = new Color("#000000")
 
-async function checkForUpdates() {
-
-    let uC;
-    try {
-        let updateCheck = new Request('${scriptURL}on');
-        uC = await updateCheck.loadJSON();
-    } catch(e) {
-        return log(e)
-    }
-    const latestVersion = uC.version;
-  
-    // Compare the version numbers
-    if (currentVersion !== latestVersion) {
-        console.log("An update is available");
-        const fm = FileManager.iCloud();
-        const scriptPath = fm.joinPath(fm.documentsDirectory(), Script.name() + ".js");
-        const request = new Request(scriptURL);
-        const updatedScript = await request.loadString();
-        
-        if (fm.fileExists(scriptPath)) {
-            const currentScript = fm.readString(scriptPath);
-            if (currentScript !== updatedScript) {
-                fm.writeString(scriptPath, updatedScript);
-                console.log("Script updated");
-            }
-        } else {
-            fm.writeString(scriptPath, updatedScript);
-            console.log("Initial script download complete");
-        }
-    } else {
-        console.log("No updates available");
-    }
-
-}
-
 // Run the script
 if (config.runsInWidget) {
     // For widget display, present the widget
@@ -149,33 +109,4 @@ if (config.runsInWidget) {
 } else {
     // For script execution, log the widget's text
     console.log(widget.text);
-}
-
-// Check if the script runs in the app and show options menu
-if (config.runsInApp) {
-
-    const options = ["Run Scipt", "Check for Updates"];
-    const selectedIndex = await presentOptions(options);
-
-    // Handle selected option
-    if (selectedIndex === 1) {
-        checkForUpdates();
-    }
-
-}
-
-// Function to present options menu
-async function presentOptions(options) {
-
-    const alert = new Alert();
-    alert.title = "Options";
-    alert.message = "Select an option:";
-  
-    for (const option of options) {
-        alert.addAction(option);
-    }
-  
-    const selectedIndex = await alert.presentSheet();
-    return selectedIndex;
-
 }
