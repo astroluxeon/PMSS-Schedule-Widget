@@ -1,12 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Rotation Widget v0.3.1
+// PMSS Schedule Rotation Widget v0.3.2
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Rotation-Widget/master/alt-day-schedule.js";
-const version = "0.3.1"
+const version = "0.3.2";
 
 const start = new Date(2023, 8, 6);
 const end = new Date(2024, 5, 28);
@@ -44,12 +44,11 @@ for (let date = new Date(sBreakStart); date <= sBreakEnd; date.setDate(date.getD
     holidays.set(new Date(date), "Spring Break");
 }
 
-// Define the widget dimensions
+// Initialize widget
 widget.setPadding(10, 10, 10, 10);
 widget.useDefaultPadding();
 widget.spacing = 5;
 
-// Define the text styles
 const titleFont = Font.boldSystemFont(18);
 const titleColor = new Color("#FFFFFF"); // Customize the title color if needed
 
@@ -94,24 +93,21 @@ if (current.toDateString() === new Date(2023, 8, 5).toDateString()) {
     }
 }
 
-// Add the title label
+// Add widget text
 const titleLabel = widget.addText(titleText);
 titleLabel.font = titleFont;
 titleLabel.textColor = titleColor;
 
-// Add the output text to the widget
 const outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
 outputLabel.font = contentFont;
 outputLabel.textColor = contentColor;
 
-// Set the widget background color
-widget.backgroundColor = new Color("#000000")
+widget.backgroundColor = new Color("#000000");
 
-// Set widget refresh time
-if (current.getHours > 6) {
-    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate(), 12, 0);
-} else if (current.getHours > 12) {
+if (current.getHours >= 12) {
     widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate()+1, 6, 0);
+} else if (current.getHours >= 6) {
+    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate(), 12, 0);
 }
 
 async function checkForUpdates() {
@@ -123,8 +119,7 @@ async function checkForUpdates() {
     } catch (e) {
         return console.log(e);
     }
-  
-    // Compare the version numbers
+
     if (version !== uc.version) {
         
         console.log("Update Available");
@@ -152,29 +147,22 @@ async function checkForUpdates() {
 
 // Run the script
 if (config.runsInWidget) {
-    // For widget display, present the widget
     Script.setWidget(widget);
-} else {
-    // For script execution, log the widget's text
-    console.log(widget.text);
 }
 
-// Check if the script runs in the app and show options menu
 if (config.runsInApp) {
 
     const options = ["Run Script", "Check for Updates"];
     const selectedIndex = await presentOptions(options);
 
-    // Handle selected option
     if (selectedIndex === 1) {
         checkForUpdates();
     }
 
 } else {
-    checkForUpdates(); // Automatically check for updates
+    checkForUpdates();
 }
 
-// Function to present options menu
 async function presentOptions(options) {
 
     const alert = new Alert();

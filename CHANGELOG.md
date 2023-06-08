@@ -29,3 +29,6 @@ Added automatic updater and widget refresh rate
 
 ## v0.3.1 - 2023-06-08
 Fixed bugs
+
+## v0.3.2 - 2023-06-08
+Fixed bugs
