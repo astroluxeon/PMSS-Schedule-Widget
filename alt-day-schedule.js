@@ -150,7 +150,7 @@ async function checkForUpdates() {
 
 }
 
-// Check for updates and run the script
+// Run the script
 if (config.runsInWidget) {
     // For widget display, present the widget
     Script.setWidget(widget);
@@ -171,7 +171,7 @@ if (config.runsInApp) {
     }
 
 } else {
-    checkForUpdates();
+    checkForUpdates(); // Automatically check for updates
 }
 
 // Function to present options menu
