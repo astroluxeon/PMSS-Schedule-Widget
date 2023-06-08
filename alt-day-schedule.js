@@ -1,12 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Rotation Widget v0.2.4
+// PMSS Schedule Rotation Widget v0.2.5
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Rotation-Widget/master/alt-day-schedule.js";
-const version = "0.2.4"
+const version = "0.2.5"
 
 const start = new Date(2023, 8, 6);
 const end = new Date(2024, 5, 28);
@@ -119,7 +119,7 @@ async function checkForUpdates() {
   
     // Compare the version numbers
     if (version !== uc.version) {
-        console.log("An update is available");
+        console.log("Update Available");
         const fm = FileManager.iCloud();
         const scriptPath = fm.joinPath(fm.documentsDirectory(), `${Script.name()}.js`);
         const request = new Request(scriptURL);
@@ -129,14 +129,14 @@ async function checkForUpdates() {
             const currentScript = fm.readString(scriptPath);
             if (currentScript !== updatedScript) {
                 fm.writeString(scriptPath, updatedScript);
-                console.log("Script updated");
+                console.log("Script Updated");
             }
         } else {
             fm.writeString(scriptPath, updatedScript);
-            console.log("Initial script download complete");
+            console.log("Initial Script Download Complete");
         }
     } else {
-        console.log("No updates available");
+        console.log("Up to Date");
     }
 
 }
