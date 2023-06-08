@@ -14,3 +14,6 @@ Fixed bugs
 
 ## v0.2.2 - 2023-06-07
 Fixed bugs
+
+## v0.2.3 - 2023-06-07
+Fixed bugs
