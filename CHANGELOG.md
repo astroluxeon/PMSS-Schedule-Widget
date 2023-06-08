@@ -26,3 +26,6 @@ Update README.md and bug fixes
 
 ## v0.3.0 - 2023-06-08
 Added automatic updater and widget refresh rate
+
+## v0.3.1 - 2023-06-08
+Fixed bugs

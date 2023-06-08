@@ -1,12 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Rotation Widget v0.3.0
+// PMSS Schedule Rotation Widget v0.3.1
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Rotation-Widget/master/alt-day-schedule.js";
-const version = "0.3.0"
+const version = "0.3.1"
 
 const start = new Date(2023, 8, 6);
 const end = new Date(2024, 5, 28);
@@ -151,7 +151,7 @@ async function checkForUpdates() {
 }
 
 // Check for updates and run the script
-updateCheck();
+checkForUpdates();
 if (config.runsInWidget) {
     // For widget display, present the widget
     Script.setWidget(widget);
