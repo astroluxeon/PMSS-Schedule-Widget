@@ -10,7 +10,7 @@ Bug fixes
 Added updater and options menu
 
 ## v0.2.1 - 2023-06-07
-Fixed bugs
+Fixed bugs, initial beta build release
 
 ## v0.2.2 - 2023-06-07
 Fixed bugs
