@@ -2,6 +2,7 @@
 A simple iOS widget for PMSS IB students on an alternating day linear schedule displaying whether a school day is day 1 or day 2
 
 ## Installation Instructions
+Only available for iOS 16 and above
 1. Download the Scriptable app from the app store: https://apps.apple.com/ca/app/scriptable/id1405459188
 2. Open alt-day-schedule.js and copy its content
 3. Click + on the top right in the Scriptable app and paste the code
