@@ -1,12 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Rotation Widget v0.3.2
+// PMSS Schedule Rotation Widget v0.3.3
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Rotation-Widget/master/alt-day-schedule.js";
-const version = "0.3.2";
+const version = "0.3.3";
 
 const start = new Date(2023, 8, 6);
 const end = new Date(2024, 5, 28);
@@ -50,10 +50,10 @@ widget.useDefaultPadding();
 widget.spacing = 5;
 
 const titleFont = Font.boldSystemFont(18);
-const titleColor = new Color("#FFFFFF"); // Customize the title color if needed
+const titleColor = new Color("#FFFFFF");
 
 const contentFont = Font.systemFont(16);
-const contentColor = new Color("#FFFFFF"); // Customize the content color if needed
+const contentColor = new Color("#FFFFFF");
 
 // Determine the output text
 let titleText = "";
@@ -104,23 +104,9 @@ outputLabel.textColor = contentColor;
 
 widget.backgroundColor = new Color("#000000");
 
-if (current.getHours >= 12) {
-    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate()+1, 6, 0);
-} else if (current.getHours >= 6) {
-    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate(), 12, 0);
-}
-
 async function checkForUpdates() {
 
-    let uc;
-    try {
-        let updateCheck = new Request(`${scriptURL}on`);
-        uc = await updateCheck.loadJSON();
-    } catch (e) {
-        return console.log(e);
-    }
-
-    if (version !== uc.version) {
+    if (compareVersions()) {
         
         console.log("Update Available");
         const fm = FileManager.iCloud();
@@ -145,24 +131,41 @@ async function checkForUpdates() {
 
 }
 
+async function compareVersions() {
+
+    let uc;
+    try {
+        let updateCheck = new Request(`${scriptURL}on`);
+        uc = await updateCheck.loadJSON();
+    } catch (e) {
+        return console.log(e);
+    }
+
+    let curVer = version.split(".");
+    let updVer = uc.version.split(".");
+    let cv = parseInt(curVer[0]) * 10000 + parseInt(curVer[1]) * 100 + parseInt(curVer[2]);
+    let uv = parseInt(updVer[0]) * 10000 + parseInt(updVer[1]) * 100 + parseInt(updVer[2]);
+
+    return cv < uv;
+    
+}
+
 // Run the script
 if (config.runsInWidget) {
     Script.setWidget(widget);
 }
 
 if (config.runsInApp) {
-
     const options = ["Run Script", "Check for Updates"];
     const selectedIndex = await presentOptions(options);
-
     if (selectedIndex === 1) {
         checkForUpdates();
     }
-
 } else {
     checkForUpdates();
 }
 
+// Options menu
 async function presentOptions(options) {
 
     const alert = new Alert();
@@ -176,4 +179,13 @@ async function presentOptions(options) {
     const selectedIndex = await alert.presentSheet();
     return selectedIndex;
 
+}
+
+// Set widget refresh time
+if (current.getHours() >= 12) {
+    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate()+1, 8, 0);
+} else if (current.getHours() >= 0 && current.getHours() < 8) {
+    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate(), 8, 0);
+} else {
+    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate(), 12, 0);
 }
