@@ -106,7 +106,7 @@ widget.backgroundColor = new Color("#000000");
 
 async function checkForUpdates() {
 
-    if (await compareVersions() === true) {
+    if (await compareVersions()) {
         
         console.log("Update Available");
         const fm = FileManager.iCloud();
