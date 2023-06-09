@@ -41,3 +41,6 @@ Fixed bugs for update checker
 
 ## v0.3.5 - 2023-06-08
 Fixed bugs
+
+## v0.3.6 - 2023-06-09
+Minor improvements and bug fixes

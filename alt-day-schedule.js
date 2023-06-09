@@ -1,12 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Rotation Widget v0.3.5
+// PMSS Schedule Rotation Widget v0.3.6
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Rotation-Widget/master/alt-day-schedule.js";
-const version = "0.3.5";
+const version = "0.3.6";
 
 const start = new Date(2023, 8, 6);
 const end = new Date(2024, 5, 28);
@@ -104,6 +104,63 @@ outputLabel.textColor = contentColor;
 
 widget.backgroundColor = new Color("#000000");
 
+if (config.runsInApp) {
+    const options = ["Run Script", "Check for Updates"];
+    const selectedIndex = await presentOptions(options);
+    if (selectedIndex === 1) {
+        await checkForUpdates();
+    }
+} else {
+    await checkForUpdates();
+}
+
+// Set widget refresh time
+if (current.getHours() >= 12) {
+    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate()+1, 6, 0);
+} else if (current.getHours() >= 0 && current.getHours() < 6) {
+    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate(), 6, 0);
+} else {
+    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate(), 12, 0);
+}
+
+Script.setWidget(widget);
+Script.complete();
+widget.presentSmall();
+
+async function presentOptions(options) {
+
+    const alert = new Alert();
+    alert.title = "PMSS Schedule Rotation Widget by Zi Chen Cai";
+    alert.message = "Select an option:";
+  
+    for (const option of options) {
+        alert.addAction(option);
+    }
+  
+    const selectedIndex = await alert.presentSheet();
+    return selectedIndex;
+
+}
+
+async function compareVersions() {
+
+    let uc;
+    try {
+        let updateCheck = new Request(`${scriptURL}on`);
+        uc = await updateCheck.loadJSON();
+    } catch (e) {
+        return console.log(e);
+    }
+
+    let curVer = version.split(".");
+    let updVer = uc.version.split(".");
+    let cv = parseInt(curVer[0]) * 10000 + parseInt(curVer[1]) * 100 + parseInt(curVer[2]);
+    let uv = parseInt(updVer[0]) * 10000 + parseInt(updVer[1]) * 100 + parseInt(updVer[2]);
+
+    return cv < uv;
+    
+}
+
 async function checkForUpdates() {
 
     if (await compareVersions()) {
@@ -129,63 +186,4 @@ async function checkForUpdates() {
         console.log("Up to Date");
     }
 
-}
-
-async function compareVersions() {
-
-    let uc;
-    try {
-        let updateCheck = new Request(`${scriptURL}on`);
-        uc = await updateCheck.loadJSON();
-    } catch (e) {
-        return console.log(e);
-    }
-
-    let curVer = version.split(".");
-    let updVer = uc.version.split(".");
-    let cv = parseInt(curVer[0]) * 10000 + parseInt(curVer[1]) * 100 + parseInt(curVer[2]);
-    let uv = parseInt(updVer[0]) * 10000 + parseInt(updVer[1]) * 100 + parseInt(updVer[2]);
-
-    return cv < uv;
-    
-}
-
-if (config.runsInApp) {
-    const options = ["Run Script", "Check for Updates"];
-    const selectedIndex = await presentOptions(options);
-    if (selectedIndex === 1) {
-        await checkForUpdates();
-    }
-} else {
-    await checkForUpdates();
-}
-
-// Display widget
-if (config.runsInWidget) {
-    Script.setWidget(widget);
-}
-
-// Options menu
-async function presentOptions(options) {
-
-    const alert = new Alert();
-    alert.title = "PMSS Schedule Rotation Widget by Zi Chen Cai";
-    alert.message = "Select an option:";
-  
-    for (const option of options) {
-        alert.addAction(option);
-    }
-  
-    const selectedIndex = await alert.presentSheet();
-    return selectedIndex;
-
-}
-
-// Set widget refresh time
-if (current.getHours() >= 12) {
-    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate()+1, 8, 0);
-} else if (current.getHours() >= 0 && current.getHours() < 8) {
-    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate(), 8, 0);
-} else {
-    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate(), 12, 0);
 }
