@@ -1,12 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Rotation Widget v0.3.4
+// PMSS Schedule Rotation Widget v0.3.5
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Rotation-Widget/master/alt-day-schedule.js";
-const version = "0.3.4";
+const version = "0.3.5";
 
 const start = new Date(2023, 8, 6);
 const end = new Date(2024, 5, 28);
@@ -106,7 +106,7 @@ widget.backgroundColor = new Color("#000000");
 
 async function checkForUpdates() {
 
-    if (compareVersions() === true) {
+    if (await compareVersions() === true) {
         
         console.log("Update Available");
         const fm = FileManager.iCloud();
@@ -154,10 +154,10 @@ if (config.runsInApp) {
     const options = ["Run Script", "Check for Updates"];
     const selectedIndex = await presentOptions(options);
     if (selectedIndex === 1) {
-        checkForUpdates();
+        await checkForUpdates();
     }
 } else {
-    checkForUpdates();
+    await checkForUpdates();
 }
 
 // Display widget

@@ -38,3 +38,6 @@ Fixed bugs, new and improved auto updater with fixed update check times at 08:00
 
 ## v0.3.4 - 2023-06-08
 Fixed bugs for update checker
+
+## v0.3.5 - 2023-06-08
+Fixed bugs
