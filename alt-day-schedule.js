@@ -1,19 +1,21 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Rotation Widget v0.3.6
+// PMSS Schedule Rotation Widget v0.3.7
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Rotation-Widget/master/alt-day-schedule.js";
-const version = "0.3.6";
+const version = "0.3.7";
 
+// Date constants
 const start = new Date(2023, 8, 6);
 const end = new Date(2024, 5, 28);
 const lsYear = new Date(2023, 5, 1);
 const lsYearEnd = new Date(2023, 5, 30);
 const current = new Date();
 
+// Skip dates
 const holidays = new Map([
     [new Date(2023, 8, 22).getTime(), "Pro-D Day"],
     [new Date(2023, 9, 2).getTime(), "Truth and Reconciliation Day"],
@@ -31,6 +33,7 @@ const holidays = new Map([
     [new Date(2024, 5, 6).getTime(), "Pro-D Day"]
 ]);
 
+// Breaks
 const wBreakStart = new Date(2023, 11, 23);
 const wBreakEnd = new Date(2024, 0, 7);
 const sBreakStart = new Date(2024, 2, 16);
@@ -55,7 +58,7 @@ const titleColor = new Color("#FFFFFF");
 const contentFont = Font.systemFont(16);
 const contentColor = new Color("#FFFFFF");
 
-// Determine the output text
+// Determine output
 let titleText = "";
 if (current.toDateString() === new Date(2023, 8, 5).toDateString()) {
     titleText += "Back to School!";
@@ -102,16 +105,20 @@ const outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: 
 outputLabel.font = contentFont;
 outputLabel.textColor = contentColor;
 
+// Set widget background color, unused for lock screen widget
 widget.backgroundColor = new Color("#000000");
 
+// Run in app, display options menu
 if (config.runsInApp) {
-    const options = ["Run Script", "Check for Updates"];
-    const selectedIndex = await presentOptions(options);
-    if (selectedIndex === 1) {
-        await checkForUpdates();
+    const options = ["Preview Widget", "Check for Updates", "Cancel"];
+    const selectedIndex = await optionsMenu(options);
+    if (selectedIndex === 0) {
+        widget.presentSmall();
+    } else if (selectedIndex === 1) {
+        await updateCheck();
     }
 } else {
-    await checkForUpdates();
+    await updateCheck();
 }
 
 // Set widget refresh time
@@ -123,11 +130,12 @@ if (current.getHours() >= 12) {
     widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate(), 12, 0);
 }
 
+// Display widget
 Script.setWidget(widget);
 Script.complete();
-widget.presentSmall();
 
-async function presentOptions(options) {
+// Present options menu
+async function optionsMenu(options) {
 
     const alert = new Alert();
     alert.title = "PMSS Schedule Rotation Widget by Zi Chen Cai";
@@ -142,12 +150,13 @@ async function presentOptions(options) {
 
 }
 
+// Compare version numbers
 async function compareVersions() {
 
     let uc;
     try {
-        let updateCheck = new Request(`${scriptURL}on`);
-        uc = await updateCheck.loadJSON();
+        let json = new Request(`${scriptURL}on`);
+        uc = await json.loadJSON();
     } catch (e) {
         return console.log(e);
     }
@@ -161,7 +170,8 @@ async function compareVersions() {
     
 }
 
-async function checkForUpdates() {
+// Check for updates
+async function updateCheck() {
 
     if (await compareVersions()) {
         

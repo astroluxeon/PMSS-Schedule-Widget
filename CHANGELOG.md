@@ -34,13 +34,19 @@ Fixed bugs
 Fixed bugs
 
 ## v0.3.3 - 2023-06-08
-Fixed bugs, new and improved auto updater with fixed update check times at 08:00 and 12:00
+Minor improvements and Bug fixes
+New and improved auto updater with fixed update check times at 08:00 and 12:00
 
 ## v0.3.4 - 2023-06-08
-Fixed bugs for update checker
+Fixed bugs
 
 ## v0.3.5 - 2023-06-08
 Fixed bugs
 
 ## v0.3.6 - 2023-06-09
 Minor improvements and bug fixes
+Changed morning refresh time to 06:00 instead of 08:00
+
+## v0.3.7 - 2023-06-09
+Fixed bugs
+Updates to options menu, added cancel button and removed run script button in favor of automatic run script
