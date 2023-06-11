@@ -51,3 +51,6 @@ Changed morning refresh time to 06:00 instead of 08:00
 Fixed bugs
 Updates to options menu, added cancel button and removed run script button in favor of automatic run script
 Added widget preview option to options menu
+
+## v0.3.8 - 2023-06-10
+Fixed bugs with weekend days not displaying properly

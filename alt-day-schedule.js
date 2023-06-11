@@ -1,12 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Rotation Widget v0.3.7
+// PMSS Schedule Rotation Widget v0.3.8
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Rotation-Widget/master/alt-day-schedule.js";
-const version = "0.3.7";
+const version = "0.3.8";
 
 // Date constants
 const start = new Date(2023, 8, 6);
@@ -60,7 +60,9 @@ const contentColor = new Color("#FFFFFF");
 
 // Determine output
 let titleText = "";
-if (current.toDateString() === new Date(2023, 8, 5).toDateString()) {
+if (current.getDay() === 0 || current.getDay() === 6) {
+    titleText += "Weekend";
+} else if (current.toDateString() === new Date(2023, 8, 5).toDateString()) {
     titleText += "Back to School!";
 } else if (current.getTime() < new Date(2023, 8, 5).getTime()) {
     if (current.getTime() < lsYearEnd.getTime()) {
@@ -75,8 +77,6 @@ if (current.toDateString() === new Date(2023, 8, 5).toDateString()) {
     }
 } else if (holidays.has(current.getTime())) {
     titleText += holidays.get(current.getTime());
-} else if (current.getDay() === 0 || current.getDay() === 6) {
-    titleText += "Weekend";
 } else if (current.getTime() >= end.getTime()) {
     titleText += "Enjoy Summer!";
 } else {
