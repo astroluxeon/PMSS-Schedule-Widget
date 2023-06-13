@@ -57,3 +57,6 @@ Fixed bugs with weekend days not displaying properly
 
 ## v1.0.0 - 2023-06-13
 Initial stable build release
+
+## v1.0.1 - 2023-06-13
+Fixed bugs

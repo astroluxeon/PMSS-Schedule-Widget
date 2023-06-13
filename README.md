@@ -1,4 +1,4 @@
-# PMSS Schedule Rotation Widget
+# PMSS Schedule Widget
 A simple iOS lock screen widget for PMSS IB students on an alternating day linear schedule displaying whether a school day is day 1 or day 2
 
 ## Installation Instructions
