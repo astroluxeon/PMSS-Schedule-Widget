@@ -1,5 +1,5 @@
 # PMSS Schedule Rotation Widget
-A simple iOS widget for PMSS IB students on an alternating day linear schedule displaying whether a school day is day 1 or day 2
+A simple iOS lock screen widget for PMSS IB students on an alternating day linear schedule displaying whether a school day is day 1 or day 2
 
 ## Installation Instructions
 Only available for iOS 16 and above
@@ -8,3 +8,6 @@ Only available for iOS 16 and above
 3. Click + on the top right in the Scriptable app and paste the code
 4. Click done in the top left corner, then click on the new script and choose run script
 5. Add Scriptable widget to lock screen, and under select script choose the newly created script
+
+## Known Issues
+- Variable refresh time for auto updater

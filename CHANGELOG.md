@@ -54,3 +54,6 @@ Added widget preview option to options menu
 
 ## v0.3.8 - 2023-06-10
 Fixed bugs with weekend days not displaying properly
+
+## v1.0.0 - 2023-06-13
+Initial stable build release
