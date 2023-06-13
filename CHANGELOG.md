@@ -34,7 +34,7 @@ Fixed bugs
 Fixed bugs
 
 ## v0.3.3 - 2023-06-08
-Minor improvements and Bug fixes
+Minor improvements and bug fixes
 New and improved auto updater with fixed update check times at 08:00 and 12:00
 
 ## v0.3.4 - 2023-06-08
@@ -60,3 +60,7 @@ Initial stable build release
 
 ## v1.0.1 - 2023-06-13
 Fixed bugs
+
+## v1.0.2 - 2023-06-13
+Minor improvements and bug fixes
+Updates to options menu

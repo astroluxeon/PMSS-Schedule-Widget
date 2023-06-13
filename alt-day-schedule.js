@@ -1,12 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v1.0.1
+// PMSS Schedule Widget v1.0.2
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule.js";
-const version = "1.0.1";
+const version = "1.0.2";
 
 // Date constants
 const start = new Date(2023, 8, 6);
@@ -52,7 +52,7 @@ widget.setPadding(10, 10, 10, 10);
 widget.useDefaultPadding();
 widget.spacing = 5;
 
-const titleFont = Font.boldSystemFont(18);
+const titleFont = Font.boldSystemFont(16);
 const titleColor = new Color("#FFFFFF");
 
 const contentFont = Font.systemFont(16);
@@ -73,14 +73,14 @@ if (current.getDay() === 0 || current.getDay() === 6) {
             titleText += "Day 2";
         }
     } else {
-        titleText += "Enjoy Summer!"
+        titleText += "Enjoy Summer!";
     }
 } else if (holidays.has(current.getTime())) {
     titleText += holidays.get(current.getTime());
 } else if (current.getTime() >= end.getTime()) {
     titleText += "Enjoy Summer!";
 } else {
-    let totalDays = Math.floor((current - start) / (1000 * 60 * 60 * 24))
+    let totalDays = Math.floor((current - start) / (1000 * 60 * 60 * 24));
     let sum = 0;
     for (const [key, value] of holidays) {
         if (key < current) {
@@ -110,11 +110,10 @@ widget.backgroundColor = new Color("#000000");
 
 // Run in app, display options menu
 if (config.runsInApp) {
-    const options = ["Preview Widget", "Check for Updates", "Cancel"];
-    const selectedIndex = await optionsMenu(options);
-    if (selectedIndex === 0) {
+    const selectedIndex = await optionsMenu();
+    if (selectedIndex === 1) {
         widget.presentSmall();
-    } else if (selectedIndex === 1) {
+    } else if (selectedIndex === 2) {
         await updateCheck();
     }
 } else {
@@ -135,7 +134,9 @@ Script.setWidget(widget);
 Script.complete();
 
 // Present options menu
-async function optionsMenu(options) {
+async function optionsMenu() {
+
+    const options = ["Run Script", "Preview Widget", "Check for Updates"];
 
     const alert = new Alert();
     alert.title = "PMSS Schedule Widget by Zi Chen Cai";
@@ -144,6 +145,8 @@ async function optionsMenu(options) {
     for (const option of options) {
         alert.addAction(option);
     }
+
+    alert.addCancelAction("Cancel");
   
     const selectedIndex = await alert.presentSheet();
     return selectedIndex;
@@ -158,13 +161,13 @@ async function compareVersions() {
         let json = new Request(`${scriptURL}on`);
         uc = await json.loadJSON();
     } catch (e) {
-        return console.log(e);
+        return false;
     }
 
-    let curVer = version.split(".");
-    let updVer = uc.version.split(".");
-    let cv = parseInt(curVer[0]) * 10000 + parseInt(curVer[1]) * 100 + parseInt(curVer[2]);
-    let uv = parseInt(updVer[0]) * 10000 + parseInt(updVer[1]) * 100 + parseInt(updVer[2]);
+    let currentVersion = version.split(".");
+    let updateVersion = uc.version.split(".");
+    let cv = parseInt(currentVersion[0]) * 10000 + parseInt(currentVersion[1]) * 100 + parseInt(currentVersion[2]);
+    let uv = parseInt(updateVersion[0]) * 10000 + parseInt(updateVersion[1]) * 100 + parseInt(updateVersion[2]);
 
     return cv < uv;
     
