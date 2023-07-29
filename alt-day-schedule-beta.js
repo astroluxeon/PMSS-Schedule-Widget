@@ -1,16 +1,17 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v1.1.6-beta
+// PMSS Schedule Widget v1.1.7-beta
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule-beta.js";
-const version = "1.1.6";
+const version = "1.1.7";
 
 const filename = Script.name() + ".jpg";
 const files = FileManager.local();
 const path = files.joinPath(files.documentsDirectory(), filename);
+const fileExists = files.fileExists(path);
 
 // Date constants
 const start = new Date(2023, 8, 6);
@@ -114,13 +115,17 @@ widget.backgroundImage = files.readImage(path);
 
 // Run in app, display options menu
 if (config.runsInApp) {
-    const selectedIndex = await optionsMenu();
-    if (selectedIndex === 1) {
-        widget.presentSmall();
-    } else if (selectedIndex === 2) {
-        await updateCheck();
-    } else if (selectedIndex === 3) {
+    if (!fileExists) {
         await widgetSetup();
+    } else {
+        const selectedIndex = await optionsMenu();
+        if (selectedIndex === 1) {
+            widget.presentSmall();
+        } else if (selectedIndex === 2) {
+            await updateCheck();
+        } else if (selectedIndex === 3) {
+            await widgetSetup();
+        }
     }
 } else {
     await updateCheck();
@@ -217,62 +222,77 @@ async function widgetSetup() {
     let phone;
     let img;
     let message = "Are you using this as a lock screen or home screen widget?\nIf using as a home screen widget, please take a screenshot of your blank home screen wallpaper in edit mode as this is a transparent widget.";
-    let options = ["Home screen widget, screenshot taken", "Lock screen widget", "Exit to take screenshot"];
+    let options = ["Home screen widget", "Home screen widget, transparent background", "Lock screen widget"];
     let input = await generateAlert(message, options);
 
     if (input === 0) {
+
+        img = await Photos.fromLibrary();
+        files.writeImage(path, imgCrop)
+        Script.complete();
+
+    } else if (input === 1) {
+
+        message = "To use a transparent background, please take a screenshot of your blank home screen wallpaper in edit mode.";
+        options = ["Screenshot taken", "Exit to take screenshot"];
+        input = await generateAlert(message, options);
+
+        if (input) {
+            return;
+        }
+
         img = await Photos.fromLibrary();
         let height = img.size.height;
         phone = phoneSizes()[height];
+
         if (!phone) {
             message = "Looks like this is not an iPhone screenshot, please try again.";
             await generateAlert(message, ["OK"]);
             return;
         }
-    } else if (input === 1) {
+
+        message = "What size do you want the widget to be?";
+        let sizes = ["Small", "Medium", "Large"];
+        let size = await generateAlert(message, sizes);
+        let widgetSize = sizes[size];
+
+        message = "Where will the widget be placed?";
+        let crop = { w: "", h: "", x: "", y: "" };
+
+        if (widgetSize === "Small") {
+            crop.w = phone['Small'];
+            crop.h = phone['Small'];
+            let positions = ["Top Left", "Top Right", "Center Left", "Center Right", "Bottom Left", "Bottom Right"];
+            let position = await generateAlert(message, positions);
+            let keys = positions[position].split(' ');
+            crop.x = phone[keys[1]];
+            crop.y = phone[keys[0]];
+        } else if (widgetSize === "Medium") {
+            crop.w = phone['Medium'];
+            crop.h = phone['Small'];
+            crop.x = phone['Left'];
+            let positions = ["Top", "Center", "Bottom"];
+            let position = await generateAlert(message, positions);
+            let key = positions[position];
+            crop.y = phone[key];
+        } else if (widgetSize === "Large") {
+            crop.w = phone['Medium'];
+            crop.h = phone['Large'];
+            crop.x = phone['Left'];
+            let positions = ["Top", "Bottom"];
+            let position = await generateAlert(message, positions);
+            crop.y = position ? phone['Center'] : phone['Top'];
+        }
+
+        let imgCrop = cropImage(img, new Rect(crop.x, crop.y, crop.w, crop.h));
+        files.writeImage(path, imgCrop)
+        Script.complete();
+
+    } else if (input === 2) {
         message = "Setup completed";
         input = await generateAlert(message, ["OK"]);
         return;
-    } else {
-        return;
     }
-
-    message = "What size do you want the widget to be?";
-    let sizes = ["Small", "Medium", "Large"];
-    let size = await generateAlert(message, sizes);
-    let widgetSize = sizes[size];
-
-    message = "Where will the widget be placed?";
-    let crop = { w: "", h: "", x: "", y: "" };
-
-    if (widgetSize === "Small") {
-        crop.w = phone['Small'];
-        crop.h = phone['Small'];
-        let positions = ["Top Left", "Top Right", "Center Left", "Center Right", "Bottom Left", "Bottom Right"];
-        let position = await generateAlert(message, positions);
-        let keys = positions[position].split(' ');
-        crop.x = phone[keys[1]];
-        crop.y = phone[keys[0]];
-    } else if (widgetSize === "Medium") {
-        crop.w = phone['Medium'];
-        crop.h = phone['Small'];
-        crop.x = phone['Left'];
-        let positions = ["Top", "Center", "Bottom"];
-        let position = await generateAlert(message, positions);
-        let key = positions[position];
-        crop.y = phone[key];
-    } else if (widgetSize === "Large") {
-        crop.w = phone['Medium'];
-        crop.h = phone['Large'];
-        crop.x = phone['Left'];
-        let positions = ["Top", "Bottom"];
-        let position = await generateAlert(message, positions);
-        crop.y = position ? phone['Center'] : phone['Top'];
-    }
-
-    let imgCrop = cropImage(img, new Rect(crop.x, crop.y, crop.w, crop.h));
-    files.writeImage(path, imgCrop)
-    Script.complete();
 
 }
 
