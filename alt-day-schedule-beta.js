@@ -1,12 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v1.1.7-beta
+// PMSS Schedule Widget v1.1.8-beta
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule-beta.js";
-const version = "1.1.7";
+const version = "1.1.8";
 
 const filename = Script.name() + ".jpg";
 const files = FileManager.local();
@@ -228,7 +228,7 @@ async function widgetSetup() {
     if (input === 0) {
 
         img = await Photos.fromLibrary();
-        files.writeImage(path, imgCrop)
+        files.writeImage(path, img);
         Script.complete();
 
     } else if (input === 1) {
