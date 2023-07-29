@@ -1,12 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v1.1.1-beta
+// PMSS Schedule Widget v1.1.2-beta
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule-beta.js";
-const version = "1.1.1";
+const version = "1.1.2";
 
 // Date constants
 const start = new Date(2023, 8, 6);
@@ -211,10 +211,10 @@ async function widgetSetup() {
     const path = files.joinPath(files.documentsDirectory(), filename)
 
     let message = "Are you using this as a lock screen or home screen widget?\nIf using as a home screen widget, please take a screenshot of your blank home screen wallpaper in edit mode as this is a transparent widget.";
-    let options = ["Home screen widget, screenshot taken", "Lock screen widget", "Exit to take screenshot"]
-    let input = await generateAlert(message, options)
+    let options = ["Home screen widget, screenshot taken", "Lock screen widget", "Exit to take screenshot"];
+    let input = await generateAlert(message, options);
 
-    if (input === 1) {
+    if (input === 0) {
         let img = await Photos.fromLibrary();
         let height = img.size.height;
         let phone = phoneSizes()[height];
@@ -223,6 +223,10 @@ async function widgetSetup() {
             await generateAlert(message, ["OK"]);
             return;
         }
+    } else if (input === 1) {
+        message = "Setup completed";
+        input = await generateAlert(message, ["OK"]);
+        return;
     } else {
         return;
     }
