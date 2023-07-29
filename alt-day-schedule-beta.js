@@ -1,12 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v1.1.0-beta
+// PMSS Schedule Widget v1.1.1-beta
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule-beta.js";
-const version = "1.1.0";
+const version = "1.1.1";
 
 // Date constants
 const start = new Date(2023, 8, 6);
@@ -264,6 +264,23 @@ async function widgetSetup() {
     files.writeImage(path, imgCrop)
     Script.complete();
 
+}
+
+async function generateAlert(message, options) {
+    let alert = new Alert();
+    alert.message = message;
+    for (const option of options) {
+      alert.addAction(option);
+    }
+    let response = await alert.presentAlert();
+    return response;
+}
+  
+function cropImage(img, rect) {
+    let draw = new DrawContext();
+    draw.size = new Size(rect.width, rect.height);
+    draw.drawImageAtPoint(img, new Point(-rect.x, -rect.y));
+    return draw.getImage();
 }
 
 function phoneSizes() {
