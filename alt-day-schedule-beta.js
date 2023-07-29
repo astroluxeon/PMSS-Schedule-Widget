@@ -1,12 +1,16 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v1.1.5-beta
+// PMSS Schedule Widget v1.1.6-beta
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule-beta.js";
-const version = "1.1.5";
+const version = "1.1.6";
+
+const filename = Script.name() + ".jpg";
+const files = FileManager.local();
+const path = files.joinPath(files.documentsDirectory(), filename);
 
 // Date constants
 const start = new Date(2023, 8, 6);
@@ -105,8 +109,8 @@ const outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: 
 outputLabel.font = contentFont;
 outputLabel.textColor = contentColor;
 
-// Set widget background color, unused for lock screen widget
-widget.backgroundColor = new Color("#000000");
+// Set widget background, unused for lock screen widget
+widget.backgroundImage = files.readImage(path);
 
 // Run in app, display options menu
 if (config.runsInApp) {
