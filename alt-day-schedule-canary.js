@@ -1,12 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v2.0.0-canary
+// PMSS Schedule Widget v2.0.1-canary
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule-canary.js";
-const version = "2.0.0";
+const version = "2.0.1";
 
 const filename = Script.name() + ".jpg";
 const files = FileManager.local();
@@ -136,8 +136,6 @@ titleLabel.font = titleFont;
 titleLabel.textColor = titleColor;
 
 let outputLabel;
-outputLabel.font = contentFont;
-outputLabel.textColor = contentColor;
 let schedule = readData();
 
 if (!schedule || day === 0) {
@@ -157,6 +155,9 @@ if (!schedule || day === 0) {
         outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
     }
 }
+
+outputLabel.font = contentFont;
+outputLabel.textColor = contentColor;
 
 // Set widget background, unused for lock screen widget
 widget.backgroundImage = files.readImage(path);
@@ -325,28 +326,29 @@ async function widgetSetup() {
 // Get user class schedule
 async function scheduleInput() {
 
-    const classes = [];
+    let classes = [];
 
     for (let i = 1; i <= 2; i++) {
         for (let j = 1; j <= 5; j++) {
             if (j === 3) {
                 j++;
+                classes.push(`Day ${i} Block ${j}`);
             }
-            const input = new Alert.Input();
-            input.placeholder = `Day ${i} Block ${j}`;
-            classes.push(input);
         }
     }
 
-    const alert = new Alert();
+    let alert = new Alert();
     alert.title = "Schedule Input";
     alert.message = "Please enter your classes:";
-    alert.addAction("Continue");
-    classes.forEach((input) => alert.addTextField(input));
+    for (let block in classes) {
+        alert.addTextField(block);
+    }
+    alert.addAction("Confirm");
+    alert.addCancelAction("Cancel");
 
     await alert.present();
 
-    const schedule = {};
+    let schedule = {};
     for (let i = 0; i < 8; i++) {
         schedule[`class${i+1}`] = alert.textFieldValue(i);
     }
