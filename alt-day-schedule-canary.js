@@ -1,12 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v2.0.1-canary
+// PMSS Schedule Widget v2.0.2-canary
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule-canary.js";
-const version = "2.0.1";
+const version = "2.0.2";
 
 const filename = Script.name() + ".jpg";
 const files = FileManager.local();
@@ -332,8 +332,8 @@ async function scheduleInput() {
         for (let j = 1; j <= 5; j++) {
             if (j === 3) {
                 j++;
-                classes.push(`Day ${i} Block ${j}`);
             }
+            classes.push(`Day ${i} Block ${j}`);
         }
     }
 
@@ -341,7 +341,7 @@ async function scheduleInput() {
     alert.title = "Schedule Input";
     alert.message = "Please enter your classes:";
     for (let block in classes) {
-        alert.addTextField(block);
+        alert.addTextField(classes[block]);
     }
     alert.addAction("Confirm");
     alert.addCancelAction("Cancel");
@@ -349,8 +349,15 @@ async function scheduleInput() {
     await alert.present();
 
     let schedule = {};
-    for (let i = 0; i < 8; i++) {
-        schedule[`class${i+1}`] = alert.textFieldValue(i);
+    let k = 0;
+    for (let i = 1; i <= 2; i++) {
+        for (let j = 1; j <= 5; j++) {
+            if (j === 3) {
+                j++;
+            }
+            schedule[`${i}-${j}`] = alert.textFieldValue(k);
+            k++;
+        }
     }
 
     writeData(schedule);
