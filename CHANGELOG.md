@@ -64,3 +64,42 @@ Fixed bugs
 ## v1.0.2 - 2023-06-13
 Minor improvements and bug fixes
 Updates to options menu
+
+## v1.1.0 - 2023-07-29
+Added custom widget background
+
+## v1.1.1 - 2023-07-29
+Added transparent background option
+
+## v1.1.2 - 2023-07-29
+Fixed bugs
+
+## v1.1.3 - 2023-07-29
+Fixed bugs
+
+## v1.1.4 - 2023-07-29
+Fixed bugs
+
+## v1.1.5 - 2023-07-29
+Fixed bugs
+
+## v1.1.6 - 2023-07-29
+Fixed bugs
+
+## v1.1.7 - 2023-07-29
+Fixed bugs
+
+## v1.1.8 - 2023-07-29
+Fixed bugs
+
+## v2.0.0 - 2023-07-29
+Added schedule display
+
+## v2.0.1 - 2023-07-29
+Fixed bugs
+
+## v2.0.2 - 2023-07-29
+Fixed bugs
+
+## v2.0.3 - 2023-07-29
+Fixed bugs

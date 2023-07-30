@@ -1,12 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v2.0.2-canary
+// PMSS Schedule Widget v2.0.3-canary
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule-canary.js";
-const version = "2.0.2";
+const version = "2.0.3";
 
 const filename = Script.name() + ".jpg";
 const files = FileManager.local();
@@ -66,7 +66,7 @@ const contentColor = new Color("#FFFFFF");
 // Run in app, display options menu
 if (config.runsInApp) {
     if (!fileExists) {
-        await widgetSetup();
+        await setBackground();
         input = await generateAlert("Would you like to enter your class schedule?", ["Yes", "No"]);
         if (input === 0) {
             await scheduleInput();
@@ -74,12 +74,10 @@ if (config.runsInApp) {
     } else {
         const selectedIndex = await optionsMenu();
         if (selectedIndex === 1) {
-            widget.presentSmall();
-        } else if (selectedIndex === 2) {
             await updateCheck();
+        } else if (selectedIndex === 2) {
+            await setBackground();
         } else if (selectedIndex === 3) {
-            await widgetSetup();
-        } else if (selectedIndex === 4) {
             await scheduleInput();
         }
     }
@@ -178,7 +176,7 @@ Script.complete();
 // Present options menu
 async function optionsMenu() {
 
-    const options = ["Run Script", "Preview Widget", "Check for Updates", "Change Widget Background", "Enter Class Schedule"];
+    const options = ["Run Script", "Check for Updates", "Change Widget Background", "Enter Class Schedule"];
 
     const alert = new Alert();
     alert.title = "PMSS Schedule Widget by Zi Chen Cai";
@@ -244,7 +242,7 @@ async function updateCheck() {
 }
 
 // Set up widget
-async function widgetSetup() {
+async function setBackground() {
     
     let phone;
     let img;
