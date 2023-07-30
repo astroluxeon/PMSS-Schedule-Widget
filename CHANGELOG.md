@@ -106,3 +106,6 @@ Fixed bugs
 
 ## v2.0.4 - 2023-07-29
 Fixed bugs
+
+## v2.0.5 - 2023-07-29
+Fixed bugs
