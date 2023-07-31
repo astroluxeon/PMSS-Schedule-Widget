@@ -126,5 +126,6 @@ Fixed bugs
 ## v2.0.7-canary - 2023-07-31
 Added canary test mode switch to canary versions
 
-## v2.0.8-canary - 2023-07-31
+## v2.0.8-beta - 2023-07-31
+Beta release for v2.0
 Fixed bugs
