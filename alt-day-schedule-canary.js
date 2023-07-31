@@ -1,12 +1,14 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v2.0.6-canary
+// PMSS Schedule Widget v2.0.7-canary
+
+const testing = true;
+
+const scriptURL = testing ? "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule-canary.js" : "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule.js";
+const version = testing ? "2.0.7" : "0.0.0";
 
 const widget = new ListWidget();
-
-const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule-canary.js";
-const version = "2.0.6";
 
 const filename = Script.name() + ".jpg";
 const files = FileManager.local();

@@ -95,23 +95,29 @@ Fixed bugs
 ## v1.1.9 - 2023-07-30
 Fixed bugs
 
-## v2.0.0 - 2023-07-30
+## v1.1.10 - 2023-07-31
+Added beta test mode switch to beta versions
+
+## v2.0.0 - 2023-07-31
 Added schedule display
 
-## v2.0.1 - 2023-07-30
+## v2.0.1 - 2023-07-31
 Fixed bugs
 
-## v2.0.2 - 2023-07-29
+## v2.0.2 - 2023-07-31
 Fixed bugs
 
-## v2.0.3 - 2023-07-30
+## v2.0.3 - 2023-07-31
 Fixed bugs
 
-## v2.0.4 - 2023-07-30
+## v2.0.4 - 2023-07-31
 Fixed bugs
 
-## v2.0.5 - 2023-07-30
+## v2.0.5 - 2023-07-31
 Fixed bugs
 
-## v2.0.6 - 2023-07-30
+## v2.0.6 - 2023-07-31
 Fixed bugs
+
+## v2.0.7 - 2023-07-31
+Added canary test mode switch to canary versions
