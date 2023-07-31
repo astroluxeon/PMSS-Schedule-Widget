@@ -134,7 +134,7 @@ if (!schedule || day === 0) {
     outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
 } else {
     if (current.getDay() === 1) {
-        if (current.getTime() < new Date(current.getFullYear(), current.getMonth(), current.getDate(), 8, 20)) {
+        if (current.getTime() < new Date(current.getFullYear(), current.getMonth(), current.getDate(), 8, 15)) {
             outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 9, 38)) {
             outputLabel = widget.addText(schedule[`${day}-1`]);
