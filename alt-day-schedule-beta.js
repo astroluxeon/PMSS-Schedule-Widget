@@ -122,7 +122,7 @@ if (config.runsInApp) {
     } else if (selectedIndex === 2) {
         await updateCheck();
     } else if (selectedIndex === 3) {
-        await widgetSetup();
+        await setBackground();
     }
 } else {
     await updateCheck();
@@ -144,7 +144,7 @@ Script.complete();
 // Present options menu
 async function optionsMenu() {
 
-    const options = ["Run Script", "Preview Widget", "Check for Updates", "Widget Setup"];
+    const options = ["Run Script", "Preview Widget", "Check for Updates", "Change Widget Background"];
 
     const alert = new Alert();
     alert.title = "PMSS Schedule Widget by Zi Chen Cai";
@@ -210,7 +210,7 @@ async function updateCheck() {
 }
 
 // Set up widget
-async function widgetSetup() {
+async function setBackground() {
 
     const filename = Script.name() + ".jpg";
     const files = FileManager.local();
