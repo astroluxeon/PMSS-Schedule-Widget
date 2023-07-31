@@ -1,12 +1,16 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v1.0.2
+// PMSS Schedule Widget v1.1.11
+
+const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule.js";
+const version = "1.1.11";
 
 const widget = new ListWidget();
 
-const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule.js";
-const version = "1.0.2";
+const filename = Script.name() + ".jpg";
+const files = FileManager.local();
+const path = files.joinPath(files.documentsDirectory(), filename);
 
 // Date constants
 const start = new Date(2023, 8, 6);
@@ -105,8 +109,8 @@ const outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: 
 outputLabel.font = contentFont;
 outputLabel.textColor = contentColor;
 
-// Set widget background color, unused for lock screen widget
-widget.backgroundColor = new Color("#000000");
+// Set widget background, unused for lock screen widget
+widget.backgroundImage = files.readImage(path);
 
 // Run in app, display options menu
 if (config.runsInApp) {
@@ -115,6 +119,8 @@ if (config.runsInApp) {
         widget.presentSmall();
     } else if (selectedIndex === 2) {
         await updateCheck();
+    } else if (selectedIndex === 3) {
+        await setBackground();
     }
 } else {
     await updateCheck();
@@ -136,7 +142,7 @@ Script.complete();
 // Present options menu
 async function optionsMenu() {
 
-    const options = ["Run Script", "Preview Widget", "Check for Updates"];
+    const options = ["Run Script", "Preview Widget", "Check for Updates", "Change Widget Background"];
 
     const alert = new Alert();
     alert.title = "PMSS Schedule Widget by Zi Chen Cai";
@@ -199,4 +205,121 @@ async function updateCheck() {
         console.log("Up to Date");
     }
 
+}
+
+// Set up widget
+async function setBackground() {
+
+    const filename = Script.name() + ".jpg";
+    const files = FileManager.local();
+    const path = files.joinPath(files.documentsDirectory(), filename);
+    
+    let phone;
+    let img;
+    let message = "Are you using this as a lock screen or home screen widget?\nIf using as a home screen widget, please take a screenshot of your blank home screen wallpaper in edit mode as this is a transparent widget.";
+    let options = ["Home screen widget", "Home screen widget, transparent background", "Lock screen widget"];
+    let input = await generateAlert(message, options);
+
+    if (input === 0) {
+
+        img = await Photos.fromLibrary();
+        files.writeImage(path, img);
+        Script.complete();
+
+    } else if (input === 1) {
+
+        message = "To use a transparent background, please take a screenshot of your blank home screen wallpaper in edit mode.";
+        options = ["Screenshot taken", "Exit to take screenshot"];
+        input = await generateAlert(message, options);
+
+        if (input) {
+            return;
+        }
+
+        img = await Photos.fromLibrary();
+        let height = img.size.height;
+        phone = phoneSizes()[height];
+
+        if (!phone) {
+            message = "Looks like this is not an iPhone screenshot, please try again.";
+            await generateAlert(message, ["OK"]);
+            return;
+        }
+
+        message = "What size do you want the widget to be?";
+        let sizes = ["Small", "Medium", "Large"];
+        let size = await generateAlert(message, sizes);
+        let widgetSize = sizes[size];
+
+        message = "Where will the widget be placed?";
+        let crop = { w: "", h: "", x: "", y: "" };
+
+        if (widgetSize === "Small") {
+            crop.w = phone['Small'];
+            crop.h = phone['Small'];
+            let positions = ["Top Left", "Top Right", "Center Left", "Center Right", "Bottom Left", "Bottom Right"];
+            let position = await generateAlert(message, positions);
+            let keys = positions[position].split(' ');
+            crop.x = phone[keys[1]];
+            crop.y = phone[keys[0]];
+        } else if (widgetSize === "Medium") {
+            crop.w = phone['Medium'];
+            crop.h = phone['Small'];
+            crop.x = phone['Left'];
+            let positions = ["Top", "Center", "Bottom"];
+            let position = await generateAlert(message, positions);
+            let key = positions[position];
+            crop.y = phone[key];
+        } else if (widgetSize === "Large") {
+            crop.w = phone['Medium'];
+            crop.h = phone['Large'];
+            crop.x = phone['Left'];
+            let positions = ["Top", "Bottom"];
+            let position = await generateAlert(message, positions);
+            crop.y = position ? phone['Center'] : phone['Top'];
+        }
+
+        let imgCrop = cropImage(img, new Rect(crop.x, crop.y, crop.w, crop.h));
+        files.writeImage(path, imgCrop)
+        Script.complete();
+
+    } else if (input === 2) {
+        message = "Setup completed";
+        input = await generateAlert(message, ["OK"]);
+        return;
+    }
+
+}
+
+async function generateAlert(message, options) {
+    let alert = new Alert();
+    alert.message = message;
+    for (const option of options) {
+      alert.addAction(option);
+    }
+    let response = await alert.presentAlert();
+    return response;
+}
+  
+function cropImage(img, rect) {
+    let draw = new DrawContext();
+    draw.size = new Size(rect.width, rect.height);
+    draw.drawImageAtPoint(img, new Point(-rect.x, -rect.y));
+    return draw.getImage();
+}
+
+function phoneSizes() {
+    let phones = {
+        "2778": { 'Small': 510, 'Medium': 1092, 'Large': 1146, 'Left': 96, 'Right': 678, 'Top': 246, 'Center': 882, 'Bottom': 1518 },
+        "2532": { 'Small': 474, 'Medium': 1014, 'Large': 1062, 'Left': 78, 'Right': 618, 'Top': 231, 'Center': 819, 'Bottom': 1407 },
+        "2688": { 'Small': 507, 'Medium': 1080, 'Large': 1137, 'Left': 81, 'Right': 654, 'Top': 228, 'Center': 858, 'Bottom': 1488 },
+        "1792": { 'Small': 338, 'Medium': 720, 'Large': 758, 'Left': 54, 'Right': 436, 'Top': 160, 'Center': 580, 'Bottom': 1000 },
+        "2436": { 'Small': 465, 'Medium': 987, 'Large': 1035, 'Left': 69, 'Right': 591, 'Top': 213, 'Center': 783, 'Bottom': 1353 },
+        "2208": { 'Small': 471, 'Medium': 1044, 'Large': 1071, 'Left': 99, 'Right': 672, 'Top': 114, 'Center': 696, 'Bottom': 1278 },
+        "1334": { 'Small': 296, 'Medium': 642, 'Large': 648, 'Left': 54, 'Right': 400, 'Top': 60, 'Center': 412, 'Bottom': 764 },
+        "1136": { 'Small': 282, 'Medium': 584, 'Large': 622, 'Left': 30, 'Right': 332, 'Top': 59, 'Center': 399, 'Bottom': 399 },
+        "1624": { 'Small': 310, 'Medium': 658, 'Large': 690, 'Left': 46, 'Right': 394, 'Top': 142, 'Center': 522, 'Bottom': 902 },
+        "2001": { 'Small': 444, 'Medium': 963, 'Large': 972, 'Left': 81, 'Right': 600, 'Top': 90, 'Center': 618, 'Bottom': 1146 }
+    };
+    return phones;
 }

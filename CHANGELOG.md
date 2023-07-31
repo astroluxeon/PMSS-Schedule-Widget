@@ -98,6 +98,10 @@ Fixed bugs
 ## v1.1.10-beta - 2023-07-31
 Added beta test mode switch to beta versions
 
+## v1.1.11 - 2023-07-31
+Stable release for v1.1
+Minor improvements and bug fixes
+
 ## v2.0.0-canary - 2023-07-29
 Added schedule display
 
