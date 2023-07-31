@@ -1,17 +1,16 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v1.1.8-beta
+// PMSS Schedule Widget v1.1.9-beta
 
 const widget = new ListWidget();
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule-beta.js";
-const version = "1.1.8";
+const version = "1.1.9";
 
 const filename = Script.name() + ".jpg";
 const files = FileManager.local();
 const path = files.joinPath(files.documentsDirectory(), filename);
-const fileExists = files.fileExists(path);
 
 // Date constants
 const start = new Date(2023, 8, 6);
@@ -115,17 +114,13 @@ widget.backgroundImage = files.readImage(path);
 
 // Run in app, display options menu
 if (config.runsInApp) {
-    if (!fileExists) {
+    const selectedIndex = await optionsMenu();
+    if (selectedIndex === 1) {
+        widget.presentSmall();
+    } else if (selectedIndex === 2) {
+        await updateCheck();
+    } else if (selectedIndex === 3) {
         await widgetSetup();
-    } else {
-        const selectedIndex = await optionsMenu();
-        if (selectedIndex === 1) {
-            widget.presentSmall();
-        } else if (selectedIndex === 2) {
-            await updateCheck();
-        } else if (selectedIndex === 3) {
-            await widgetSetup();
-        }
     }
 } else {
     await updateCheck();
