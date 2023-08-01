@@ -100,6 +100,7 @@ Added beta test mode switch to beta versions
 
 ## v1.1.11 - 2023-07-31
 Stable release for v1.1
+Closure of beta channel for v1.1
 Minor improvements and bug fixes
 
 ## v2.0.0-canary - 2023-07-29
@@ -128,4 +129,5 @@ Added canary test mode switch to canary versions
 
 ## v2.0.8-beta - 2023-07-31
 Beta release for v2.0
-Fixed bugs
+Closure of canary channel for v2.0
+Minor improvements and bug fixes
