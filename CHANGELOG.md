@@ -131,3 +131,6 @@ Added canary test mode switch to canary versions
 Beta release for v2.0
 Closure of canary channel for v2.0
 Minor improvements and bug fixes
+
+## v2.0.9-beta - 2023-08-02
+Fixed bugs
