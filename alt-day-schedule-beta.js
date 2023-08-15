@@ -131,46 +131,41 @@ if (!schedule || day === 0) { // day in header
 } else { // class in header
     if (current.getDay() === 1) {
         if (current.getTime() < new Date(current.getFullYear(), current.getMonth(), current.getDate(), 8, 15)) {
-            titleText = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
+            outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 9, 38)) {
-            titleText = widget.addText(schedule[`${day}-1`]);
+            outputLabel = widget.addText(schedule[`${day}-1`]);
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 10, 49)) {
-            titleText = widget.addText(schedule[`${day}-2`]);
+            outputLabel = widget.addText(schedule[`${day}-2`]);
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 11, 39)) {
-            titleText = widget.addText("Lunch");
+            outputLabel = widget.addText("Lunch");
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 12, 50)) {
-            titleText = widget.addText(schedule[`${day}-4`]);
+            outputLabel = widget.addText(schedule[`${day}-4`]);
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 14, 1)) {
-            titleText = widget.addText(schedule[`${day}-5`]);
+            outputLabel = widget.addText(schedule[`${day}-5`]);
         } else {
-            titleText = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
+            outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
         }
     } else {
         if (current.getTime() < new Date(current.getFullYear(), current.getMonth(), current.getDate(), 8, 30)) {
-            titleText = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
+            outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 10, 15)) {
-            titleText = widget.addText(schedule[`${day}-1`]);
+            outputLabel = widget.addText(schedule[`${day}-1`]);
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 11, 35)) {
-            titleText = widget.addText(schedule[`${day}-2`]);
+            outputLabel = widget.addText(schedule[`${day}-2`]);
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 12, 25)) {
-            titleText = widget.addText("Lunch");
+            outputLabel = widget.addText("Lunch");
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 13, 45)) {
-            titleText = widget.addText(schedule[`${day}-4`]);
+            outputLabel = widget.addText(schedule[`${day}-4`]);
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 15, 20)) {
-            titleText = widget.addText(schedule[`${day}-5`]);
+            outputLabel = widget.addText(schedule[`${day}-5`]);
         } else {
-            titleText = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
+            outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
         }
     }
 }
 
-// Add widget text
-titleLabel.font = titleFont;
-titleLabel.textColor = titleColor;
-
-let outputLabel = widget.addText(outputText);
-outputText.font = contentFont;
-outputText.textColor = contentColor;
+outputLabel.font = contentFont;
+outputLabel.textColor = contentColor;
 
 // Set widget background, unused for lock screen widget
 widget.backgroundImage = files.readImage(path);
