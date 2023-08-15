@@ -164,6 +164,9 @@ if (!schedule || day === 0) { // day in header
     }
 }
 
+// Add widget text
+titleText.font = titleFont;
+titleText.textColor = titleColor;
 outputText.font = contentFont;
 outputText.textColor = contentColor;
 
