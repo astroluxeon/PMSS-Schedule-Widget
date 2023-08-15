@@ -1,12 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v2.0.9-beta
+// PMSS Schedule Widget v2.0.10-beta
 
 const testing = true;
 
 const scriptURL = testing ? "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule-beta.js" : "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule.js";
-const version = testing ? "2.0.9" : "0.0.0";
+const version = testing ? "2.0.10" : "0.0.0";
 
 const widget = new ListWidget();
 
@@ -78,30 +78,33 @@ if (config.runsInApp) {
     await updateCheck();
 }
 
+let titleText;
+let outputText = "";
+let schedule = readData();
+
 // Determine output
-let titleText = "";
 let day = 0;
 if (current.getDay() === 0 || current.getDay() === 6) {
-    titleText += "Weekend";
+    outputText += "Weekend";
 } else if (current.toDateString() === new Date(2023, 8, 5).toDateString()) {
-    titleText += "Back to School!";
+    outputText += "Back to School!";
 } else if (current.getTime() < new Date(2023, 8, 5).getTime()) {
     if (current.getTime() < lsYearEnd.getTime()) {
         const dayN = Math.floor((current - lsYear) / (1000 * 60 * 60 * 24)) % 2;
         if (dayN === 0) {
             day = 1;
-            titleText += "Day 1";
+            outputText += "Day 1";
         } else {
             day = 2;
-            titleText += "Day 2";
+            outputText += "Day 2";
         }
     } else {
-        titleText += "Enjoy Summer!";
+        outputText += "Enjoy Summer!";
     }
 } else if (holidays.has(current.getTime())) {
-    titleText += holidays.get(current.getTime());
+    outputText += holidays.get(current.getTime());
 } else if (current.getTime() >= end.getTime()) {
-    titleText += "Enjoy Summer!";
+    outputText += "Enjoy Summer!";
 } else {
     let totalDays = Math.floor((current - start) / (1000 * 60 * 60 * 24));
     let sum = 0;
@@ -114,62 +117,60 @@ if (current.getDay() === 0 || current.getDay() === 6) {
     const dayN = totalDays % 2;
     if (dayN === 0) {
         day = 1;
-        titleText += "Day 1";
+        outputText += "Day 1";
     } else {
         day = 2;
-        titleText += "Day 2";
+        outputText += "Day 2";
+    }
+}
+
+// Display class schedule
+if (!schedule || day === 0) {
+    titleText = outputText;
+    outputText = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
+} else {
+    if (current.getDay() === 1) {
+        if (current.getTime() < new Date(current.getFullYear(), current.getMonth(), current.getDate(), 8, 15)) {
+            titleText = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
+        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 9, 38)) {
+            titleText = widget.addText(schedule[`${day}-1`]);
+        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 10, 49)) {
+            titleText = widget.addText(schedule[`${day}-2`]);
+        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 11, 39)) {
+            titleText = widget.addText("Lunch");
+        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 12, 50)) {
+            titleText = widget.addText(schedule[`${day}-4`]);
+        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 14, 1)) {
+            titleText = widget.addText(schedule[`${day}-5`]);
+        } else {
+            titleText = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
+        }
+    } else {
+        if (current.getTime() < new Date(current.getFullYear(), current.getMonth(), current.getDate(), 8, 30)) {
+            titleText = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
+        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 10, 15)) {
+            titleText = widget.addText(schedule[`${day}-1`]);
+        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 11, 35)) {
+            titleText = widget.addText(schedule[`${day}-2`]);
+        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 12, 25)) {
+            titleText = widget.addText("Lunch");
+        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 13, 45)) {
+            titleText = widget.addText(schedule[`${day}-4`]);
+        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 15, 20)) {
+            titleText = widget.addText(schedule[`${day}-5`]);
+        } else {
+            titleText = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
+        }
     }
 }
 
 // Add widget text
-let titleLabel = widget.addText(titleText);
 titleLabel.font = titleFont;
 titleLabel.textColor = titleColor;
 
-let outputLabel;
-let schedule = readData();
-
-// Display class schedule
-if (!schedule || day === 0) {
-    outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
-} else {
-    if (current.getDay() === 1) {
-        if (current.getTime() < new Date(current.getFullYear(), current.getMonth(), current.getDate(), 8, 15)) {
-            outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
-        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 9, 38)) {
-            outputLabel = widget.addText(schedule[`${day}-1`]);
-        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 10, 49)) {
-            outputLabel = widget.addText(schedule[`${day}-2`]);
-        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 11, 39)) {
-            outputLabel = widget.addText("Lunch");
-        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 12, 50)) {
-            outputLabel = widget.addText(schedule[`${day}-4`]);
-        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 14, 1)) {
-            outputLabel = widget.addText(schedule[`${day}-5`]);
-        } else {
-            outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
-        }
-    } else {
-        if (current.getTime() < new Date(current.getFullYear(), current.getMonth(), current.getDate(), 8, 30)) {
-            outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
-        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 10, 15)) {
-            outputLabel = widget.addText(schedule[`${day}-1`]);
-        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 11, 35)) {
-            outputLabel = widget.addText(schedule[`${day}-2`]);
-        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 12, 25)) {
-            outputLabel = widget.addText("Lunch");
-        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 13, 45)) {
-            outputLabel = widget.addText(schedule[`${day}-4`]);
-        } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 15, 20)) {
-            outputLabel = widget.addText(schedule[`${day}-5`]);
-        } else {
-            outputLabel = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
-        }
-    }
-}
-
-outputLabel.font = contentFont;
-outputLabel.textColor = contentColor;
+let outputLabel = widget.addText(outputText);
+outputText.font = contentFont;
+outputText.textColor = contentColor;
 
 // Set widget background, unused for lock screen widget
 widget.backgroundImage = files.readImage(path);

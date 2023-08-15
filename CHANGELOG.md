@@ -134,3 +134,6 @@ Minor improvements and bug fixes
 
 ## v2.0.9-beta - 2023-08-02
 Fixed bugs
+
+## v2.0.10-beta - 2023-08-14
+Class schedule now displays in the header instead of the body of the widget
