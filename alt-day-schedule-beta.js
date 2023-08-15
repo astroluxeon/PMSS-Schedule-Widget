@@ -125,10 +125,10 @@ if (current.getDay() === 0 || current.getDay() === 6) {
 }
 
 // Display class schedule
-if (!schedule || day === 0) {
+if (!schedule || day === 0) { // day in header
     titleText = outputText;
     outputText = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
-} else {
+} else { // class in header
     if (current.getDay() === 1) {
         if (current.getTime() < new Date(current.getFullYear(), current.getMonth(), current.getDate(), 8, 15)) {
             titleText = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
