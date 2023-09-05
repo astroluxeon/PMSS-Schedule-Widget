@@ -1,5 +1,5 @@
 # PMSS Schedule Widget
-An iOS widget for PMSS IB students on an alternating day linear schedule displaying whether a school day is day 1 or day 2
+An iOS widget for PMSS IB students on an alternating day linear schedule
 
 ## Installation Instructions
 Only available for iOS 14 and above

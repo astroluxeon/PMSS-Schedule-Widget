@@ -3,7 +3,7 @@
 // icon-color: blue; icon-glyph: magic;
 // PMSS Schedule Widget v2.0.12-beta
 
-const testing = true;
+const testing = false;
 
 const scriptURL = testing ? "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule-beta.js" : "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule.js";
 const version = testing ? "2.0.12" : "0.0.0";
