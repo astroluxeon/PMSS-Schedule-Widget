@@ -145,3 +145,6 @@ Fixed bugs
 Stable release for v2.0
 Closure of beta channel for v2.0
 Minor improvements and bug fixes
+
+## v2.0.13 - 2023-09-05
+Updated widget refresh time to 04:00 and 12:00 daily

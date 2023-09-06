@@ -1,10 +1,10 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v2.0.12
+// PMSS Schedule Widget v2.0.13
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule.js";
-const version = "2.0.12";
+const version = "2.0.13";
 
 const widget = new ListWidget();
 
@@ -187,9 +187,9 @@ widget.backgroundImage = files.readImage(path);
 
 // Set widget refresh time
 if (current.getHours() >= 12) {
-    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate()+1, 6, 0);
-} else if (current.getHours() >= 0 && current.getHours() < 6) {
-    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate(), 6, 0);
+    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate()+1, 4, 0);
+} else if (current.getHours() >= 0 && current.getHours() < 4) {
+    widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate(), 4, 0);
 } else {
     widget.refreshAfterDate = new Date(current.getFullYear(), current.getMonth(), current.getDate(), 12, 0);
 }
