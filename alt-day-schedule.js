@@ -1,10 +1,10 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v2.0.14
+// PMSS Schedule Widget v2.0.15
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule.js";
-const version = "2.0.14";
+const version = "2.0.15";
 
 const widget = new ListWidget();
 
@@ -366,19 +366,22 @@ async function scheduleInput() {
         alert.addTextField(classes[block]);
     }
     alert.addAction("Confirm");
+    alert.addAction("Reset Schedule");
     alert.addCancelAction("Cancel");
 
-    await alert.present();
-
+    let response = await alert.present();
     let schedule = {};
-    let k = 0;
-    for (let i = 1; i <= 2; i++) {
-        for (let j = 1; j <= 5; j++) {
-            if (j === 3) {
-                j++;
+
+    if (response === 0) {
+        let k = 0;
+        for (let i = 1; i <= 2; i++) {
+            for (let j = 1; j <= 5; j++) {
+                if (j === 3) {
+                    j++;
+                }
+                schedule[`${i}-${j}`] = alert.textFieldValue(k);
+                k++;
             }
-            schedule[`${i}-${j}`] = alert.textFieldValue(k);
-            k++;
         }
     }
 

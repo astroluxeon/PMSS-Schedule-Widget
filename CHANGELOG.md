@@ -151,3 +151,6 @@ Updated widget refresh time to 04:00 and 12:00 daily
 
 ## v2.0.14 - 2023-09-06
 Fixed bugs
+
+## v2.0.15 - 2023-09-06
+Added option to reset schedule
