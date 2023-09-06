@@ -148,3 +148,6 @@ Minor improvements and bug fixes
 
 ## v2.0.13 - 2023-09-05
 Updated widget refresh time to 04:00 and 12:00 daily
+
+## v2.0.14 - 2023-09-06
+Fixed bugs
