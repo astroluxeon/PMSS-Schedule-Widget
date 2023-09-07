@@ -1,10 +1,10 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v2.0.16
+// PMSS Schedule Widget v2.0.17
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule.js";
-const version = "2.0.16";
+const version = "2.0.17";
 
 const widget = new ListWidget();
 
@@ -124,7 +124,7 @@ if (current.getDay() === 0 || current.getDay() === 6) {
 }
 
 // Display class schedule
-if (!schedule || day === 0) { // day in header
+if (!schedule || schedule["m"] === false || day === 0) { // day in header
     titleText = widget.addText(outputLabel);
     outputText = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
 } else { // class in header
@@ -376,6 +376,9 @@ async function scheduleInput() {
                 k++;
             }
         }
+        schedule["m"] = true;
+    } else if (response === 1) {
+        schedule["m"] = false;
     }
 
     writeData(schedule);

@@ -157,3 +157,6 @@ Added option to reset schedule
 
 ## v2.0.16 - 2023-09-06
 Fixed bugs
+
+## v2.0.17 - 2023-09-07
+Fixed bugs
