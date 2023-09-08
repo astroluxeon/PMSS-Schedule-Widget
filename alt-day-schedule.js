@@ -1,10 +1,10 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v2.0.17
+// PMSS Schedule Widget v2.0.18
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule.js";
-const version = "2.0.17";
+const version = "2.0.18";
 
 const widget = new ListWidget();
 
@@ -133,19 +133,23 @@ if (!schedule || schedule["m"] === false || day === 0) { // day in header
             titleText = widget.addText(outputLabel);
             outputText = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 9, 38)) {
-            titleText = widget.addText(schedule[`${day}-1`]);
+            titleLabel = `${day}-1` + ": " + schedule[`${day}-1`];
+            titleText = widget.addText(titleLabel);
             outputText = widget.addText(outputLabel);
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 10, 49)) {
-            titleText = widget.addText(schedule[`${day}-2`]);
+            titleLabel = `${day}-1` + ": " + schedule[`${day}-2`];
+            titleText = widget.addText(titleLabel);
             outputText = widget.addText(outputLabel);
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 11, 39)) {
-            titleText = widget.addText("Lunch");
-            outputText = widget.addText(outputLabel);
+            titleText = widget.addText(outputLabel);
+            outputText = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 12, 50)) {
-            titleText = widget.addText(schedule[`${day}-4`]);
+            titleLabel = `${day}-1` + ": " + schedule[`${day}-4`];
+            titleText = widget.addText(titleLabel);
             outputText = widget.addText(outputLabel);
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 14, 1)) {
-            titleText = widget.addText(schedule[`${day}-5`]);
+            titleLabel = `${day}-1` + ": " + schedule[`${day}-5`];
+            titleText = widget.addText(titleLabel);
             outputText = widget.addText(outputLabel);
         } else {
             titleText = widget.addText(outputLabel);
@@ -156,19 +160,23 @@ if (!schedule || schedule["m"] === false || day === 0) { // day in header
             titleText = widget.addText(outputLabel);
             outputText = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 10, 15)) {
-            titleText = widget.addText(schedule[`${day}-1`]);
+            titleLabel = `${day}-1` + ": " + schedule[`${day}-1`];
+            titleText = widget.addText(titleLabel);
             outputText = widget.addText(outputLabel);
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 11, 35)) {
-            titleText = widget.addText(schedule[`${day}-2`]);
+            titleLabel = `${day}-1` + ": " + schedule[`${day}-2`];
+            titleText = widget.addText(titleLabel);
             outputText = widget.addText(outputLabel);
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 12, 25)) {
-            titleText = widget.addText("Lunch");
-            outputText = widget.addText(outputLabel);
+            titleText = widget.addText(outputLabel);
+            outputText = widget.addText(current.toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"}));
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 13, 45)) {
-            titleText = widget.addText(schedule[`${day}-4`]);
+            titleLabel = `${day}-1` + ": " + schedule[`${day}-4`];
+            titleText = widget.addText(titleLabel);
             outputText = widget.addText(outputLabel);
         } else if (current.getTime() <= new Date(current.getFullYear(), current.getMonth(), current.getDate(), 15, 20)) {
-            titleText = widget.addText(schedule[`${day}-5`]);
+            titleLabel = `${day}-1` + ": " + schedule[`${day}-5`];
+            titleText = widget.addText(titleLabel);
             outputText = widget.addText(outputLabel);
         } else {
             titleText = widget.addText(outputLabel);

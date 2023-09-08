@@ -160,3 +160,6 @@ Fixed bugs
 
 ## v2.0.17 - 2023-09-07
 Fixed bugs
+
+## v2.0.18 - 2023-09-08
+Minor improvements and bug fixes
