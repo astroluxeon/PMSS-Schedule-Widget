@@ -172,3 +172,6 @@ Minor improvements and bug fixes
 
 ## v2.0.21 - 2023-09-15
 Fixed bugs
+
+## v2.0.22 - 2023-09-16
+Fixed bugs

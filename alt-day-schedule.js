@@ -1,10 +1,10 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v2.0.21
+// PMSS Schedule Widget v2.0.22
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule.js";
-const version = "2.0.21";
+const version = "2.0.22";
 
 const widget = new ListWidget();
 
@@ -18,23 +18,24 @@ const end = new Date(2024, 5, 28);
 const lsYear = new Date(2023, 5, 1);
 const lsYearEnd = new Date(2023, 5, 30);
 const current = new Date();
+const nextDay = new Date(current.getFullYear(), current.getMonth(), current.getDate()+1);
 
 // Skip dates
 const holidays = new Map([
-    [new Date(2023, 8, 22).getTime(), "Pro-D Day"],
-    [new Date(2023, 9, 2).getTime(), "Truth and Reconciliation Day"],
-    [new Date(2023, 9, 9).getTime(), "Thanksgiving Day"],
-    [new Date(2023, 9, 20).getTime(), "Pro-D Day"],
-    [new Date(2023, 10, 10).getTime(), "School Closure Day"],
-    [new Date(2023, 10, 13).getTime(), "Remembrance Day"],
-    [new Date(2023, 10, 17).getTime(), "Pro-D Day"],
-    [new Date(2024, 1, 19).getTime(), "Family Day"],
-    [new Date(2024, 1, 23).getTime(), "Pro-D Day"],
-    [new Date(2024, 2, 29).getTime(), "Good Friday"],
-    [new Date(2024, 3, 1).getTime(), "Easter Monday"],
-    [new Date(2024, 3, 18).getTime(), "Pro-D Day"],
-    [new Date(2024, 4, 19).getTime(), "Victoria Day"],
-    [new Date(2024, 5, 6).getTime(), "Pro-D Day"]
+    [new Date(2023, 8, 22).toDateString(), "Pro-D Day"],
+    [new Date(2023, 9, 2).toDateString(), "Truth and Reconciliation Day"],
+    [new Date(2023, 9, 9).toDateString(), "Thanksgiving Day"],
+    [new Date(2023, 9, 20).toDateString(), "Pro-D Day"],
+    [new Date(2023, 10, 10).toDateString(), "School Closure Day"],
+    [new Date(2023, 10, 13).toDateString(), "Remembrance Day"],
+    [new Date(2023, 10, 17).toDateString(), "Pro-D Day"],
+    [new Date(2024, 1, 19).toDateString(), "Family Day"],
+    [new Date(2024, 1, 23).toDateString(), "Pro-D Day"],
+    [new Date(2024, 2, 29).toDateString(), "Good Friday"],
+    [new Date(2024, 3, 1).toDateString(), "Easter Monday"],
+    [new Date(2024, 3, 18).toDateString(), "Pro-D Day"],
+    [new Date(2024, 4, 19).toDateString(), "Victoria Day"],
+    [new Date(2024, 5, 6).toDateString(), "Pro-D Day"]
 ]);
 
 // Breaks
@@ -83,13 +84,39 @@ let schedule = readData();
 
 // Determine output
 let day = 0;
-if (current.getDay() === 0 || current.getDay() === 6) {
-    outputLabel += "Weekend";
-} else if (current.toDateString() === new Date(2023, 8, 5).toDateString()) {
-    outputLabel += "Back to School!";
-} else if (current.getTime() < new Date(2023, 8, 5).getTime()) {
-    if (current.getTime() < lsYearEnd.getTime()) {
-        const dayN = Math.floor((current - lsYear) / (1000 * 60 * 60 * 24)) % 2;
+if (current.getHours() >= 18) {
+    outputLabel += "Next: ";
+    if (next.getDay() === 0 || next.getDay() === 6) {
+        outputLabel += "Weekend";
+    } else if (next.toDateString() === new Date(2023, 8, 5).toDateString()) {
+        outputLabel += "Back to School!";
+    } else if (next.getTime() < new Date(2023, 8, 5).getTime()) {
+        if (next.getTime() < lsYearEnd.getTime()) {
+            const dayN = Math.floor((next - lsYear) / (1000 * 60 * 60 * 24)) % 2;
+            if (dayN === 0) {
+                day = 1;
+                outputLabel += "Day 1";
+            } else {
+                day = 2;
+                outputLabel += "Day 2";
+            }
+        } else {
+            outputLabel += "Enjoy Summer!";
+        }
+    } else if (holidays.has(next.toDateString())) {
+        outputLabel += holidays.get(next.toDateString());
+    } else if (next.getTime() >= end.getTime()) {
+        outputLabel += "Enjoy Summer!";
+    } else {
+        let totalDays = Math.floor((next - start) / (1000 * 60 * 60 * 24));
+        let sum = 0;
+        for (const [key, value] of holidays) {
+            if (key < next) {
+                sum++;
+            }
+        }
+        totalDays -= sum;
+        const dayN = totalDays % 2;
         if (dayN === 0) {
             day = 1;
             outputLabel += "Day 1";
@@ -97,29 +124,46 @@ if (current.getDay() === 0 || current.getDay() === 6) {
             day = 2;
             outputLabel += "Day 2";
         }
-    } else {
-        outputLabel += "Enjoy Summer!";
     }
-} else if (holidays.has(current.getTime())) {
-    outputLabel += holidays.get(current.getTime());
-} else if (current.getTime() >= end.getTime()) {
-    outputLabel += "Enjoy Summer!";
 } else {
-    let totalDays = Math.floor((current - start) / (1000 * 60 * 60 * 24));
-    let sum = 0;
-    for (const [key, value] of holidays) {
-        if (key < current) {
-            sum++;
+    if (current.getDay() === 0 || current.getDay() === 6) {
+        outputLabel += "Weekend";
+    } else if (current.toDateString() === new Date(2023, 8, 5).toDateString()) {
+        outputLabel += "Back to School!";
+    } else if (current.getTime() < new Date(2023, 8, 5).getTime()) {
+        if (current.getTime() < lsYearEnd.getTime()) {
+            const dayN = Math.floor((current - lsYear) / (1000 * 60 * 60 * 24)) % 2;
+            if (dayN === 0) {
+                day = 1;
+                outputLabel += "Day 1";
+            } else {
+                day = 2;
+                outputLabel += "Day 2";
+            }
+        } else {
+            outputLabel += "Enjoy Summer!";
         }
-    }
-    totalDays -= sum;
-    const dayN = totalDays % 2;
-    if (dayN === 0) {
-        day = 1;
-        outputLabel += "Day 1";
+    } else if (holidays.has(current.toDateString())) {
+        outputLabel += holidays.get(current.toDateString());
+    } else if (current.getTime() >= end.getTime()) {
+        outputLabel += "Enjoy Summer!";
     } else {
-        day = 2;
-        outputLabel += "Day 2";
+        let totalDays = Math.floor((current - start) / (1000 * 60 * 60 * 24));
+        let sum = 0;
+        for (const [key, value] of holidays) {
+            if (key < current) {
+                sum++;
+            }
+        }
+        totalDays -= sum;
+        const dayN = totalDays % 2;
+        if (dayN === 0) {
+            day = 1;
+            outputLabel += "Day 1";
+        } else {
+            day = 2;
+            outputLabel += "Day 2";
+        }
     }
 }
 
