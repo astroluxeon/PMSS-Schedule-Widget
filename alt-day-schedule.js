@@ -1,10 +1,10 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v2.0.24
+// PMSS Schedule Widget v2.0.25
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule.js";
-const version = "2.0.24";
+const version = "2.0.25";
 
 const widget = new ListWidget();
 
@@ -22,20 +22,20 @@ const next = new Date(current.getFullYear(), current.getMonth(), current.getDate
 
 // Skip dates
 const holidays = new Map([
-    [new Date(2023, 8, 22), "Pro-D Day"],
-    [new Date(2023, 9, 2), "Truth and Reconciliation Day"],
-    [new Date(2023, 9, 9), "Thanksgiving Day"],
-    [new Date(2023, 9, 20), "Pro-D Day"],
-    [new Date(2023, 10, 10), "School Closure Day"],
-    [new Date(2023, 10, 13), "Remembrance Day"],
-    [new Date(2023, 10, 17), "Pro-D Day"],
-    [new Date(2024, 1, 19), "Family Day"],
-    [new Date(2024, 1, 23), "Pro-D Day"],
-    [new Date(2024, 2, 29), "Good Friday"],
-    [new Date(2024, 3, 1), "Easter Monday"],
-    [new Date(2024, 3, 18), "Pro-D Day"],
-    [new Date(2024, 4, 19), "Victoria Day"],
-    [new Date(2024, 5, 6), "Pro-D Day"]
+    [new Date(2023, 8, 22).getTime(), "Pro-D Day"],
+    [new Date(2023, 9, 2).getTime(), "Truth and Reconciliation Day"],
+    [new Date(2023, 9, 9).getTime(), "Thanksgiving Day"],
+    [new Date(2023, 9, 20).getTime(), "Pro-D Day"],
+    [new Date(2023, 10, 10).getTime(), "School Closure Day"],
+    [new Date(2023, 10, 13).getTime(), "Remembrance Day"],
+    [new Date(2023, 10, 17).getTime(), "Pro-D Day"],
+    [new Date(2024, 1, 19).getTime(), "Family Day"],
+    [new Date(2024, 1, 23).getTime(), "Pro-D Day"],
+    [new Date(2024, 2, 29).getTime(), "Good Friday"],
+    [new Date(2024, 3, 1).getTime(), "Easter Monday"],
+    [new Date(2024, 3, 18).getTime(), "Pro-D Day"],
+    [new Date(2024, 4, 19).getTime(), "Victoria Day"],
+    [new Date(2024, 5, 6).getTime(), "Pro-D Day"]
 ]);
 
 // Breaks
@@ -45,11 +45,11 @@ const sBreakStart = new Date(2024, 2, 16);
 const sBreakEnd = new Date(2024, 2, 28);
 
 for (let date = new Date(wBreakStart); date <= wBreakEnd; date.setDate(date.getDate() + 1)) {
-    holidays.set(new Date(date), "Winter Break");
+    holidays.set(new Date(date).getTime(), "Winter Break");
 }
 
 for (let date = new Date(sBreakStart); date <= sBreakEnd; date.setDate(date.getDate() + 1)) {
-    holidays.set(new Date(date), "Spring Break");
+    holidays.set(new Date(date).getTime(), "Spring Break");
 }
 
 // Initialize widget
@@ -92,15 +92,15 @@ if (current.getHours() >= 18) {
         outputLabel += "Back to School!";
     } else if (next.getTime() < new Date(2023, 8, 5).getTime()) {
         outputLabel += "Enjoy Summer!";
-    } else if (holidays.has(next)) {
-        outputLabel += holidays.get(next);
+    } else if (holidays.has(next.getTime())) {
+        outputLabel += holidays.get(next.getTime());
     } else if (next.getTime() >= end.getTime()) {
         outputLabel += "Enjoy Summer!";
     } else {
         let totalDays = Math.floor((next - start) / (1000 * 60 * 60 * 24));
         let sum = 0;
         for (const [key, value] of holidays) {
-            if (key.getTime() < next.getTime()) {
+            if (key < next.getTime()) {
                 sum++;
             }
         }
@@ -115,21 +115,22 @@ if (current.getHours() >= 18) {
         }
     }
 } else {
+    temp = new Date(current.getFullYear(), current.getMonth(), current.getDate())
     if (current.getDay() === 0 || current.getDay() === 6) {
         outputLabel += "Weekend";
     } else if (current.toDateString() === new Date(2023, 8, 5).toDateString()) {
         outputLabel += "Back to School!";
     } else if (current.getTime() < new Date(2023, 8, 5).getTime()) {
         outputLabel += "Enjoy Summer!";
-    } else if (holidays.has(current)) {
-        outputLabel += holidays.get(current);
+    } else if (holidays.has(temp.getTime())) {
+        outputLabel += holidays.get(temp.getTime());
     } else if (current.getTime() >= end.getTime()) {
         outputLabel += "Enjoy Summer!";
     } else {
         let totalDays = Math.floor((current - start) / (1000 * 60 * 60 * 24));
         let sum = 0;
         for (const [key, value] of holidays) {
-            if (key.getTime() < current.getTime()) {
+            if (key < current.getTime()) {
                 sum++;
             }
         }
