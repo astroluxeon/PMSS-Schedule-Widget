@@ -178,3 +178,6 @@ Fixed bugs
 
 ## v2.0.23 - 2023-09-24
 Fixed bugs
+
+## v2.0.24 - 2023-09-24
+Fixed bugs

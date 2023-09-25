@@ -1,10 +1,10 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v2.0.23
+// PMSS Schedule Widget v2.0.24
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule.js";
-const version = "2.0.23";
+const version = "2.0.24";
 
 const widget = new ListWidget();
 
@@ -91,20 +91,9 @@ if (current.getHours() >= 18) {
     } else if (next.toDateString() === new Date(2023, 8, 5).toDateString()) {
         outputLabel += "Back to School!";
     } else if (next.getTime() < new Date(2023, 8, 5).getTime()) {
-        if (next.getTime() < lsYearEnd.getTime()) {
-            const dayN = Math.floor((next - lsYear) / (1000 * 60 * 60 * 24)) % 2;
-            if (dayN === 0) {
-                day = 1;
-                outputLabel += "Day 1";
-            } else {
-                day = 2;
-                outputLabel += "Day 2";
-            }
-        } else {
-            outputLabel += "Enjoy Summer!";
-        }
-    } else if (holidays.has(next.toDateString())) {
-        outputLabel += holidays.get(next.toDateString());
+        outputLabel += "Enjoy Summer!";
+    } else if (holidays.has(next)) {
+        outputLabel += holidays.get(next);
     } else if (next.getTime() >= end.getTime()) {
         outputLabel += "Enjoy Summer!";
     } else {
@@ -131,20 +120,9 @@ if (current.getHours() >= 18) {
     } else if (current.toDateString() === new Date(2023, 8, 5).toDateString()) {
         outputLabel += "Back to School!";
     } else if (current.getTime() < new Date(2023, 8, 5).getTime()) {
-        if (current.getTime() < lsYearEnd.getTime()) {
-            const dayN = Math.floor((current - lsYear) / (1000 * 60 * 60 * 24)) % 2;
-            if (dayN === 0) {
-                day = 1;
-                outputLabel += "Day 1";
-            } else {
-                day = 2;
-                outputLabel += "Day 2";
-            }
-        } else {
-            outputLabel += "Enjoy Summer!";
-        }
-    } else if (holidays.has(current.toDateString())) {
-        outputLabel += holidays.get(current.toDateString());
+        outputLabel += "Enjoy Summer!";
+    } else if (holidays.has(current)) {
+        outputLabel += holidays.get(current);
     } else if (current.getTime() >= end.getTime()) {
         outputLabel += "Enjoy Summer!";
     } else {
