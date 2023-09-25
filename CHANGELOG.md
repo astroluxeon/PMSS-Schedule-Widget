@@ -175,3 +175,6 @@ Fixed bugs
 
 ## v2.0.22 - 2023-09-16
 Fixed bugs
+
+## v2.0.23 - 2023-09-24
+Fixed bugs
