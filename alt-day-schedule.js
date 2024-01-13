@@ -256,8 +256,8 @@ async function optionsMenu() {
     const options = ["Run Script", "Check for Updates", "Change Widget Background", "Enter Class Schedule"];
 
     const alert = new Alert();
-    alert.title = "PMSS Schedule Widget by Zi Chen Cai";
-    alert.message = "[Discontinued]\nSelect an option:";
+    alert.title = "PMSS Schedule Widget by Zi Chen Cai\n[Discontinued]";
+    alert.message = "Select an option:";
   
     for (const option of options) {
         alert.addAction(option);
