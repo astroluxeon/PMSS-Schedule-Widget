@@ -187,3 +187,6 @@ Fixed bugs
 
 ## v2.0.26 - 2024-01-13
 Added I Week schedule
+
+## v2.0.27 - 2024-01-13
+Fixed bugs

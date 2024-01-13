@@ -1,10 +1,10 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v2.0.26
+// PMSS Schedule Widget v2.0.27
 
 const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule.js";
-const version = "2.0.26";
+const version = "2.0.27";
 
 const widget = new ListWidget();
 
@@ -91,11 +91,64 @@ let schedule = readData();
 let day = 0;
 if (current.getHours() >= 18) {
     outputLabel += "Next: ";
-    outputLabel += calcDay(next)[1]
-    day = calcDay(next)[0]
+    if (next.getDay() === 0 || next.getDay() === 6) {
+        outputLabel += "Weekend";
+    } else if (next.toDateString() === new Date(2023, 8, 5).toDateString()) {
+        outputLabel += "Back to School!";
+    } else if (next.getTime() < new Date(2023, 8, 5).getTime()) {
+        outputLabel += "Enjoy Summer!";
+    } else if (holidays.has(next.getTime())) {
+        outputLabel += holidays.get(next.getTime());
+    } else if (next.getTime() >= end.getTime()) {
+        outputLabel += "Enjoy Summer!";
+    } else {
+        let totalDays = Math.floor((next - start) / (1000 * 60 * 60 * 24));
+        let sum = 0;
+        for (const [key, value] of holidays) {
+            if (key < next.getTime()) {
+                sum++;
+            }
+        }
+        totalDays -= sum;
+        const dayN = totalDays % 2;
+        if (dayN === 0) {
+            day = 1;
+            outputLabel += "Day 1";
+        } else {
+            day = 2;
+            outputLabel += "Day 2";
+        }
+    }
 } else {
-    outputLabel += calcDay(current)[1]
-    day = calcDay(current)[0]
+    temp = new Date(current.getFullYear(), current.getMonth(), current.getDate())
+    if (current.getDay() === 0 || current.getDay() === 6) {
+        outputLabel += "Weekend";
+    } else if (current.toDateString() === new Date(2023, 8, 5).toDateString()) {
+        outputLabel += "Back to School!";
+    } else if (current.getTime() < new Date(2023, 8, 5).getTime()) {
+        outputLabel += "Enjoy Summer!";
+    } else if (holidays.has(temp.getTime())) {
+        outputLabel += holidays.get(temp.getTime());
+    } else if (current.getTime() >= end.getTime()) {
+        outputLabel += "Enjoy Summer!";
+    } else {
+        let totalDays = Math.floor((current - start) / (1000 * 60 * 60 * 24));
+        let sum = 0;
+        for (const [key, value] of holidays) {
+            if (key < current.getTime()) {
+                sum++;
+            }
+        }
+        totalDays -= sum;
+        const dayN = totalDays % 2;
+        if (dayN === 0) {
+            day = 1;
+            outputLabel += "Day 1";
+        } else {
+            day = 2;
+            outputLabel += "Day 2";
+        }
+    }
 }
 
 // Display class schedule
@@ -197,48 +250,14 @@ widget.backgroundImage = files.readImage(path);
 Script.setWidget(widget);
 Script.complete();
 
-async function calcDay(date) {
-    let d = 0;
-    let s = "";
-    let t = new Date(date.getFullYear(), date.getMonth(), date.getDate())
-    if (date.getDay() === 0 || date.getDay() === 6) {
-        s += "Weekend";
-    } else if (date.toDateString() === new Date(2023, 8, 5).toDateString()) {
-        s += "Back to School!";
-    } else if (date.getTime() < new Date(2023, 8, 5).getTime()) {
-        s += "Enjoy Summer!";
-    } else if (holidays.has(t.getTime())) {
-        s += holidays.get(t.getTime());
-    } else if (date.getTime() >= end.getTime()) {
-        s += "Enjoy Summer!";
-    } else {
-        let total = Math.floor((date - start) / (1000 * 60 * 60 * 24));
-        let sum = 0;
-        for (const [key, value] of holidays) {
-            if (key < date.getTime()) {
-                sum++;
-            }
-        }
-        total -= sum;
-        const n = total % 2;
-        if (n === 0) {
-            d = 1;
-            s += "Day 1";
-        } else {
-            d = 2;
-            s += "Day 2";
-        }
-    }
-    return [d, s];
-}
-
 // Present options menu
 async function optionsMenu() {
+
     const options = ["Run Script", "Check for Updates", "Change Widget Background", "Enter Class Schedule"];
 
     const alert = new Alert();
     alert.title = "PMSS Schedule Widget by Zi Chen Cai";
-    alert.message = "Select an option:";
+    alert.message = "[Discontinued]\nSelect an option:";
   
     for (const option of options) {
         alert.addAction(option);
@@ -248,10 +267,12 @@ async function optionsMenu() {
   
     const selectedIndex = await alert.presentSheet();
     return selectedIndex;
+
 }
 
 // Compare version numbers
 async function compareVersions() {
+
     let uc;
     try {
         let json = new Request(`${scriptURL}on`);
@@ -266,10 +287,12 @@ async function compareVersions() {
     let uv = parseInt(updateVersion[0]) * 10000 + parseInt(updateVersion[1]) * 100 + parseInt(updateVersion[2]);
 
     return cv < uv;
+    
 }
 
 // Check for updates
 async function updateCheck() {
+
     if (await compareVersions()) {
         
         console.log("Update Available");
@@ -292,10 +315,12 @@ async function updateCheck() {
     } else {
         console.log("Up to Date");
     }
+
 }
 
 // Set up widget
 async function setBackground() {
+    
     let phone;
     let img;
     let message = "Are you using this as a lock screen or home screen widget?\nIf using as a home screen widget, please take a screenshot of your blank home screen wallpaper in edit mode as this is a transparent widget.";
@@ -370,10 +395,12 @@ async function setBackground() {
         input = await generateAlert(message, ["OK"]);
         return;
     }
+
 }
 
 // Get user class schedule
 async function scheduleInput() {
+
     let classes = [];
 
     for (let i = 1; i <= 2; i++) {
@@ -416,6 +443,7 @@ async function scheduleInput() {
 
     writeData(schedule);
     return schedule;
+
 }
 
 async function generateAlert(message, options) {
