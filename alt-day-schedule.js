@@ -1,10 +1,10 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: blue; icon-glyph: magic;
-// PMSS Schedule Widget v2.0.27
+// PMSS Schedule Widget v2.0.28
 
-const scriptURL = "https://raw.githubusercontent.com/zichenc7/PMSS-Schedule-Widget/master/alt-day-schedule.js";
-const version = "2.0.27";
+const scriptURL = "https://raw.githubusercontent.com/astroluxeon/PmssScheduleWidget/master/alt-day-schedule.js";
+const version = "2.0.28";
 
 const widget = new ListWidget();
 
