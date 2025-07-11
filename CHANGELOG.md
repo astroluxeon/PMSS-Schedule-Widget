@@ -190,3 +190,6 @@ Added I Week schedule
 
 ## v2.0.27 - 2024-01-13
 Fixed bugs
+
+## v2.0.28 - 2024-01-31
+End of Service
